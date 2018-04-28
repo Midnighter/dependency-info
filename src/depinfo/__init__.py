@@ -16,6 +16,12 @@
 
 """List the dependencies with versions of a package."""
 
+from __future__ import absolute_import
+
+__author__ = "Moritz E. Beber"
+__email__ = "midnighter@posteo.net"
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
+
+from depinfo.info import print_dependencies
