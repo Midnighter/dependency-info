@@ -14,8 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""List the dependencies with versions of a package."""
+"""Create top level imports."""
 
+from __future__ import absolute_import
+
+__author__ = "Moritz E. Beber"
+__email__ = "midnighter@posteo.net"
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
+
+from depinfo.info import *
