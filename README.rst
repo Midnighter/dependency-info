@@ -41,8 +41,28 @@ The easiest way is to implement the following in your package somewhere.
 
 That's all there is to it.
 
+Example
+=======
+
+.. code-block:: console
+
+    python -c "from depinfo import show_versions;show_versions()"
+    
+    System Information
+    ==================
+    OS                     Linux
+    OS-release 4.4.0-122-generic
+    Python                 3.6.5
+
+    Package Versions
+    ================
+    pip        10.0.1
+    pipdeptree 0.12.1
+    setuptools 39.0.1
+    wheel      0.31.0
+
 Copyright
 =========
 
 * Copyright (c) 2018, Moritz E. Beber.
-* Free software: `Apache Software License 2.0 <LICENSE>`_
+* Free software: `Apache Software License 2.0 <https://github.com/Midnighter/dependency-info/blob/master/LICENSE>`_
