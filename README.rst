@@ -44,10 +44,13 @@ That's all there is to it.
 Example
 =======
 
+.. code-block:: python
+
+    from depinfo import print_dependencies
+    print_dependencies("dependency-info")
+
 .. code-block:: console
 
-    python -c "from depinfo import show_versions;show_versions()"
-    
     System Information
     ==================
     OS                     Linux
