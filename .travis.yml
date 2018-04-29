@@ -26,9 +26,6 @@ env:
 matrix:
   fast_finish: true
 
-before_install:
-  - echo $TRAVIS_TAG
-
 install:
   - pip install --upgrade pip setuptools wheel tox tox-travis
 
