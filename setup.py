@@ -27,5 +27,6 @@ from setuptools import setup
 setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
+    # Temporary workaround for https://github.com/pypa/setuptools/issues/1136.
     package_dir={"": "src"}
 )

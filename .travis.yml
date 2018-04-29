@@ -27,7 +27,7 @@ matrix:
   fast_finish: true
 
 install:
-  - pip install -upgrade pip setuptools wheel tox tox-travis
+  - pip install --upgrade pip setuptools wheel tox tox-travis
 
 script:
   - travis_wait tox
