@@ -25,6 +25,21 @@ env:
 
 matrix:
   fast_finish: true
+  include:
+    - os: osx
+      language: generic
+      before_install:
+        - brew update
+        - brew install --without-readline --without-xz --without-gdbm --without-sqlite python3
+        - virtualenv testenv -p python3
+        - source testenv/bin/activate
+    - os: osx
+      language: generic
+      before_install:
+        - brew update
+        - brew install --without-readline --without-xz --without-gdbm --without-sqlite python2
+        - virtualenv testenv -p python2
+        - source testenv/bin/activate
 
 install:
   - pip install --upgrade pip setuptools wheel tox tox-travis
