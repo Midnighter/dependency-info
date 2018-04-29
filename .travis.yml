@@ -27,10 +27,13 @@ matrix:
   fast_finish: true
 
 install:
-  - pip install -U pip setuptools wheel tox tox-travis codecov
+  - pip install -upgrade pip setuptools wheel tox tox-travis
 
 script:
   - travis_wait tox
+
+after_success:
+  - pip install --upgrade codecov
   - codecov
 
 stages:
@@ -41,7 +44,9 @@ stages:
 jobs:
   include:
     - stage: deploy
-      script: skip
+      install: ignore
+      script: ignore
+      after_success: ignore
       deploy:
         - provider: pypi
           skip_cleanup: true
