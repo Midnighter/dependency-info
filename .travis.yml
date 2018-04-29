@@ -44,9 +44,7 @@ stages:
 jobs:
   include:
     - stage: deploy
-      install: ignore
       script: ignore
-      after_success: ignore
       deploy:
         - provider: pypi
           skip_cleanup: true
