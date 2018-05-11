@@ -74,4 +74,4 @@ def print_dependencies(package_name):
 
 def show_versions():
     """Print dependency information for this package."""
-    print_dependencies("dependency-info")
+    print_dependencies("depinfo")

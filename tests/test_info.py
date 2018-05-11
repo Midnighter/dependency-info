@@ -35,7 +35,7 @@ def test_get_sys_info():
 
 def test_get_pkg_info():
     """Expect minimal package dependencies."""
-    blob = depi.get_pkg_info("dependency-info")
+    blob = depi.get_pkg_info("depinfo")
     assert "pip" in blob
     assert "setuptools" in blob
     assert "wheel" in blob
@@ -55,7 +55,7 @@ def test_print_info(capsys, blob, output):
 
 def test_print_dependencies(capsys):
     """Expect all printed information in order."""
-    depi.print_dependencies("dependency-info")
+    depi.print_dependencies("depinfo")
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
     assert lines[1].startswith("System Information")

@@ -2,8 +2,8 @@
 Package Dependency Information
 ==============================
 
-.. image:: https://img.shields.io/pypi/v/dependency-info.svg
-   :target: https://pypi.org/project/dependency-info/
+.. image:: https://img.shields.io/pypi/v/depinfo.svg
+   :target: https://pypi.org/project/depinfo/
    :alt: PyPI
 
 .. image:: https://travis-ci.org/Midnighter/dependency-info.svg?branch=master
@@ -25,7 +25,7 @@ It's as simple as:
 
 .. code-block:: console
 
-    pip install dependency-info
+    pip install depinfo
 
 Usage
 =====
@@ -47,7 +47,7 @@ Example
 .. code-block:: python
 
     from depinfo import print_dependencies
-    print_dependencies("dependency-info")
+    print_dependencies("depinfo")
 
 .. code-block:: console
 
