@@ -24,7 +24,8 @@ import pkg_resources
 from pipdeptree import build_dist_index, construct_tree
 
 
-__all__ = ("print_dependencies", "show_versions")
+__all__ = (
+    "print_dependencies", "show_versions", "get_pkg_info", "get_sys_info")
 
 
 def get_sys_info():
