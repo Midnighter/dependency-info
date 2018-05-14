@@ -28,6 +28,9 @@ import depinfo.info as depi
 def test_get_sys_info():
     """Expect correct platform information."""
     blob = depi.get_sys_info()
+    assert "OS" in blob
+    assert "OS-release" in blob
+    assert "Python" in blob
     assert blob["OS"] == platform.system()
     assert blob["OS-release"] == platform.release()
     assert blob["Python"] == platform.python_version()
@@ -36,6 +39,7 @@ def test_get_sys_info():
 def test_get_pkg_info():
     """Expect minimal package dependencies."""
     blob = depi.get_pkg_info("depinfo")
+    assert "depinfo" in blob
     assert "pip" in blob
     assert "setuptools" in blob
     assert "wheel" in blob
@@ -66,10 +70,11 @@ def test_print_dependencies(capsys):
 
     assert lines[7].startswith("Package Versions")
     assert lines[8].startswith("================")
-    assert lines[9].startswith("pip")
-    assert lines[10].startswith("pipdeptree")
-    assert lines[11].startswith("setuptools")
-    assert lines[12].startswith("wheel")
+    assert lines[9].startswith("depinfo")
+    assert lines[10].startswith("pip")
+    assert lines[11].startswith("pipdeptree")
+    assert lines[12].startswith("setuptools")
+    assert lines[13].startswith("wheel")
 
 
 def test_show_versions(capsys):
@@ -85,7 +90,8 @@ def test_show_versions(capsys):
 
     assert lines[7].startswith("Package Versions")
     assert lines[8].startswith("================")
-    assert lines[9].startswith("pip")
-    assert lines[10].startswith("pipdeptree")
-    assert lines[11].startswith("setuptools")
-    assert lines[12].startswith("wheel")
+    assert lines[9].startswith("depinfo")
+    assert lines[10].startswith("pip")
+    assert lines[11].startswith("pipdeptree")
+    assert lines[12].startswith("setuptools")
+    assert lines[13].startswith("wheel")

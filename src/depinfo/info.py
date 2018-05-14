@@ -43,6 +43,8 @@ def get_pkg_info(package_name):
     root = dist_index[package_name]
     tree = construct_tree(dist_index)
     dependencies = {pkg.name: pkg.installed_version for pkg in tree[root]}
+    root = root.as_requirement()
+    dependencies[root.name] = root.installed_version
     for name in ["pip", "flit", "pbr", "setuptools", "wheel"]:
         try:
             pkg = dist_index[name].as_requirement()
