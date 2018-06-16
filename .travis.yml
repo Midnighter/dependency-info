@@ -33,20 +33,19 @@ script:
   - travis_wait tox
 
 after_success:
-  - pip install --upgrade codecov
-  - codecov
+  - bash <(curl -f https://codecov.io/bash)
 
 stages:
   - test
   - name: deploy
-    if: (repo = env(GITHUB_REPO)) AND (tag IS present)
+    if: ( repo = env(GITHUB_REPO) ) AND ( tag IS present )
 
 jobs:
   include:
     - stage: deploy
       install: pip install --upgrade pip setuptools wheel
-      script: ignore
-      after_success: echo "Deploying..."
+      script: echo "Deploying..."
+      after_success: ignore
       deploy:
         - provider: pypi
           skip_cleanup: true
