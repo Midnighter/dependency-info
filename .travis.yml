@@ -38,7 +38,7 @@ after_success:
 stages:
   - test
   - name: deploy
-    if: ( repo = env(GITHUB_REPO) ) AND ( tag IS present )
+    if: tag IS present
 
 jobs:
   include:
