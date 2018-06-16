@@ -37,15 +37,18 @@ def get_sys_info():
     return blob
 
 
-def get_pkg_info(package_name):
+def get_pkg_info(package_name,
+        additional=["pip", "flit", "pbr", "setuptools", "wheel"]):
     """Return build and package dependencies as a dict."""
     dist_index = build_dist_index(pkg_resources.working_set)
     root = dist_index[package_name]
     tree = construct_tree(dist_index)
     dependencies = {pkg.name: pkg.installed_version for pkg in tree[root]}
+    # Add the initial package itself.
     root = root.as_requirement()
     dependencies[root.name] = root.installed_version
-    for name in ["pip", "flit", "pbr", "setuptools", "wheel"]:
+    # Retrieve information on additional packages such as build tools.
+    for name in additional:
         try:
             pkg = dist_index[name].as_requirement()
             dependencies[pkg.name] = pkg.installed_version
