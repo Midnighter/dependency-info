@@ -44,8 +44,8 @@ jobs:
   include:
     - stage: deploy
       install: pip install --upgrade pip setuptools wheel
-      script: echo "Deploying..."
-      after_success: ignore
+      script: skip
+      after_success: echo "Deploying..."
       deploy:
         - provider: pypi
           skip_cleanup: true
