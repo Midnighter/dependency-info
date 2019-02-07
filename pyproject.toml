@@ -3,3 +3,12 @@ requires = [
   "setuptools>=30.3.0",
   "wheel"
 ]
+
+[tool.black]
+line-length = 80
+py36 = true
+exclude = '''
+(
+    _version.py
+)
+'''
