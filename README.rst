@@ -17,6 +17,10 @@ Package Dependency Information
 .. image:: https://img.shields.io/pypi/pyversions/setuptools.svg
    :alt: Supported Python Versions
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/ambv/black
+   :alt: Black
+
 A utility Python package intended for other library packages. Provides a
 function that when called with your package name, will print
 platform and dependency information.
