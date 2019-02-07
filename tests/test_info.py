@@ -46,10 +46,13 @@ def test_get_pkg_info():
     assert "pipdeptree" in blob
 
 
-@pytest.mark.parametrize("blob, output", [
-    pytest.mark.raises(({}, ""), exception=ValueError),
-    ({"pip": "10.0.0", "wheel": "0.5"}, "pip   10.0.0\nwheel    0.5\n")
-])
+@pytest.mark.parametrize(
+    "blob, output",
+    [
+        pytest.mark.raises(({}, ""), exception=ValueError),
+        ({"pip": "10.0.0", "wheel": "0.5"}, "pip   10.0.0\nwheel    0.5\n"),
+    ],
+)
 def test_print_info(capsys, blob, output):
     """Expect stdout in order and correctly formatted."""
     depi.print_info(blob)

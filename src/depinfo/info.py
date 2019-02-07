@@ -25,7 +25,11 @@ from pipdeptree import build_dist_index, construct_tree
 
 
 __all__ = (
-    "print_dependencies", "show_versions", "get_pkg_info", "get_sys_info")
+    "print_dependencies",
+    "show_versions",
+    "get_pkg_info",
+    "get_sys_info",
+)
 
 
 def get_sys_info():
@@ -37,8 +41,9 @@ def get_sys_info():
     return blob
 
 
-def get_pkg_info(package_name,
-                 additional=["pip", "flit", "pbr", "setuptools", "wheel"]):
+def get_pkg_info(
+    package_name, additional=["pip", "flit", "pbr", "setuptools", "wheel"]
+):
     """Return build and package dependencies as a dict."""
     dist_index = build_dist_index(pkg_resources.working_set)
     root = dist_index[package_name]
@@ -59,8 +64,10 @@ def get_pkg_info(package_name,
 
 def print_info(info):
     """Print an information dict to stdout in order."""
-    format_str = "{:<%d} {:>%d}" % (max(map(len, info)),
-                                    max(map(len, info.values())))
+    format_str = "{:<%d} {:>%d}" % (
+        max(map(len, info)),
+        max(map(len, info.values())),
+    )
     for name in sorted(info):
         print(format_str.format(name, info[name]))
 
