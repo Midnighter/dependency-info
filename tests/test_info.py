@@ -52,7 +52,7 @@ def test_get_pkg_info():
 @pytest.mark.parametrize(
     "blob, output",
     [
-        pytest.mark.raises(({}, ""), exception=ValueError),
+        pytest.param({}, "", marks=pytest.mark.raises(exception=ValueError)),
         ({"pip": "10.0.0", "wheel": "0.5"}, "pip   10.0.0\nwheel    0.5\n"),
     ],
 )
