@@ -3,10 +3,10 @@ language: python
 os:
   - linux
 python:
-  - "3.6"
-  - "3.5"
-  - "3.4"
   - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
   - "3.7-dev"
 
 git:
@@ -43,8 +43,9 @@ stages:
 jobs:
   include:
     - stage: deploy
+      python: "3.6"
       install:
-        - pip install --upgrade pip setuptools wheel
+        - pip install --upgrade setuptools wheel
       script: skip
       after_success: echo "Deploying..."
       deploy:
