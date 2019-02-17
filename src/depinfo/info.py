@@ -45,7 +45,7 @@ def get_sys_info():
 
 
 def get_pkg_info(
-    package_name, additional=["pip", "flit", "pbr", "setuptools", "wheel"]
+    package_name, additional=("pip", "flit", "pbr", "setuptools", "wheel")
 ):
     """Return build and package dependencies as a dict."""
     dist_index = build_dist_index(pkg_resources.working_set)
