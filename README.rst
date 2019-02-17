@@ -6,6 +6,14 @@ Package Dependency Information
    :target: https://pypi.org/project/depinfo/
    :alt: Current PyPI Version
 
+.. image:: https://img.shields.io/pypi/pyversions/depinfo.svg
+   :target: https://pypi.org/project/dependency-info/
+   :alt: Supported Python Versions
+
+.. image:: https://img.shields.io/pypi/l/depinfo.svg
+   :target: https://www.apache.org/licenses/LICENSE-2.0
+   :alt: Apache Software License Version 2.0
+
 .. image:: https://img.shields.io/travis/Midnighter/dependency-info/master.svg?label=Travis%20CI
    :target: https://travis-ci.org/Midnighter/dependency-info
    :alt: Travis CI
@@ -13,9 +21,6 @@ Package Dependency Information
 .. image:: https://codecov.io/gh/Midnighter/dependency-info/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/Midnighter/dependency-info
    :alt: Codecov
-
-.. image:: https://img.shields.io/pypi/pyversions/setuptools.svg
-   :alt: Supported Python Versions
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/ambv/black
