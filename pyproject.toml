@@ -6,9 +6,10 @@ requires = [
 
 [tool.black]
 line-length = 80
-py36 = true
+python-version = ['py36']
 exclude = '''
 (
-    _version.py
+    __init__.py
+    | _version.py
 )
 '''
