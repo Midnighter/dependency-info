@@ -1,5 +1,4 @@
 ---
-sudo: false
 language: python
 os:
 - linux
@@ -16,6 +15,7 @@ cache: pip
 
 branches:
   only:
+  - fix-travis
   - master
   - "/^\\d+\\.\\d+\\.\\d+[a]?\\d*$/"
 
@@ -28,34 +28,35 @@ stages:
   - name: deploy
     if: tag IS present
 
+install:
+  - pip install --upgrade pip setuptools wheel tox tox-travis
+script:
+  - tox -- --cov-report=xml
+after_success:
+  - bash <(curl -f https://codecov.io/bash)
+
 jobs:
   fast_finish: true
   include:
-  - test:
-    install:
-    - pip install --upgrade pip setuptools wheel tox tox-travis
-    script:
-    - tox -- --cov-report=xml
-    after_success:
-    - bash <(curl -f https://codecov.io/bash)
   - stage: deploy
     python: "3.7"
     install:
     - pip install --upgrade setuptools wheel
     script: skip
+    after_success: skip
     deploy:
     - provider: pypi
-      skip_cleanup: true
+      cleanup: true
       distributions: sdist bdist_wheel
-      user: $PYPI_USERNAME
+      username: $PYPI_USERNAME
       password: $PYPI_PASSWORD
       on:
         tags: true
         repo: $GITHUB_REPO
     - provider: releases
-      skip_cleanup: true
-      api_key: $GITHUB_TOKEN
-      body: "Please see https://github.com/${GITHUB_REPO}/blob/${TRAVIS_TAG}/CHANGELOG.rst for the full release notes."
+      cleanup: true
+      token: $GITHUB_TOKEN
+      release_notes: "Please see https://github.com/${GITHUB_REPO}/blob/${TRAVIS_TAG}/CHANGELOG.rst for the full release notes."
       on:
         tags: true
         repo: $GITHUB_REPO
@@ -64,4 +65,3 @@ notifications:
   email:
     on_success: never
     on_failure: always
-    on_pull_requests: never
