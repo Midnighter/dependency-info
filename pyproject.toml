@@ -5,11 +5,10 @@ requires = [
 ]
 
 [tool.black]
-line-length = 80
-python-version = ['py36']
+line-length = 88
+python-version = ['py36', 'py37', 'py38']
 exclude = '''
 (
-    __init__.py
-    | _version.py
+    _version.py
 )
 '''
