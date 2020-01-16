@@ -14,6 +14,10 @@ Package Dependency Information
    :target: https://www.apache.org/licenses/LICENSE-2.0
    :alt: Apache Software License Version 2.0
 
+.. image:: https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg
+   :target: https://github.com/Midnighter/dependency-info/blob/master/.github/CODE_OF_CONDUCT.md
+   :alt: Code of Conduct
+
 .. image:: https://img.shields.io/travis/Midnighter/dependency-info/master.svg?label=Travis%20CI
    :target: https://travis-ci.org/Midnighter/dependency-info
    :alt: Travis CI
@@ -90,5 +94,6 @@ Example
 Copyright
 =========
 
-* Copyright (c) 2018, Moritz E. Beber.
-* Free software: `Apache Software License 2.0 <https://github.com/Midnighter/dependency-info/blob/master/LICENSE>`_
+* Copyright © 2018-2020, Moritz E. Beber.
+* Free software distributed under the `Apache Software License 2.0
+  <https://www.apache.org/licenses/LICENSE-2.0>`_.
