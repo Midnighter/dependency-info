@@ -27,12 +27,7 @@ import pkg_resources
 from pipdeptree import build_dist_index, construct_tree
 
 
-__all__ = (
-    "print_dependencies",
-    "show_versions",
-    "get_pkg_info",
-    "get_sys_info",
-)
+__all__ = ("print_dependencies", "show_versions", "get_pkg_info", "get_sys_info")
 
 
 def get_sys_info():
@@ -67,10 +62,7 @@ def get_pkg_info(
 
 def print_info(info):
     """Print an information dict to stdout in order."""
-    format_str = "{:<%d} {:>%d}" % (
-        max(map(len, info)),
-        max(map(len, info.values())),
-    )
+    format_str = "{:<%d} {:>%d}" % (max(map(len, info)), max(map(len, info.values())))
     for name in sorted(info):
         print(format_str.format(name, info[name]))
 
