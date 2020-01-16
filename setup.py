@@ -22,8 +22,9 @@
 
 from __future__ import absolute_import
 
-import versioneer
 from setuptools import setup
+
+import versioneer
 
 
 # All other arguments are defined in `setup.cfg`.

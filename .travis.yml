@@ -1,12 +1,13 @@
+---
 sudo: false
 language: python
 os:
-  - linux
+- linux
 python:
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
+- "3.5"
+- "3.6"
+- "3.7"
+- "3.8"
 
 git:
   depth: 2
@@ -20,18 +21,7 @@ branches:
 
 env:
   global:
-    - GITHUB_REPO=Midnighter/dependency-info
-
-matrix:
-  fast_finish: true
-
-install:
-  - pip install --upgrade pip setuptools wheel tox tox-travis
-
-script:
-  - tox -- --cov-report=xml --cov-report=term
-after_success:
-  - bash <(curl -f https://codecov.io/bash)
+  - GITHUB_REPO=Midnighter/dependency-info
 
 stages:
   - test
@@ -39,29 +29,36 @@ stages:
     if: tag IS present
 
 jobs:
+  fast_finish: true
   include:
-    - stage: deploy
-      python: "3.6"
-      install:
-        - pip install --upgrade setuptools wheel
-      script: skip
-      after_success: echo "Deploying..."
-      deploy:
-        - provider: pypi
-          skip_cleanup: true
-          distributions: sdist bdist_wheel
-          user: $PYPI_USERNAME
-          password: $PYPI_PASSWORD
-          on:
-            tags: true
-            repo: $GITHUB_REPO
-        - provider: releases
-          skip_cleanup: true
-          api_key: $GITHUB_TOKEN
-          body: "Please see https://github.com/${GITHUB_REPO}/blob/${TRAVIS_TAG}/CHANGELOG.rst for the full release notes."
-          on:
-            tags: true
-            repo: $GITHUB_REPO
+  - test:
+    install:
+    - pip install --upgrade pip setuptools wheel tox tox-travis
+    script:
+    - tox -- --cov-report=xml
+    after_success:
+    - bash <(curl -f https://codecov.io/bash)
+  - stage: deploy
+    python: "3.7"
+    install:
+    - pip install --upgrade setuptools wheel
+    script: skip
+    deploy:
+    - provider: pypi
+      skip_cleanup: true
+      distributions: sdist bdist_wheel
+      user: $PYPI_USERNAME
+      password: $PYPI_PASSWORD
+      on:
+        tags: true
+        repo: $GITHUB_REPO
+    - provider: releases
+      skip_cleanup: true
+      api_key: $GITHUB_TOKEN
+      body: "Please see https://github.com/${GITHUB_REPO}/blob/${TRAVIS_TAG}/CHANGELOG.rst for the full release notes."
+      on:
+        tags: true
+        repo: $GITHUB_REPO
 
 notifications:
   email:
