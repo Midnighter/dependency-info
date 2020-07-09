@@ -3,7 +3,6 @@ language: python
 os:
 - linux
 python:
-- "3.5"
 - "3.6"
 - "3.7"
 - "3.8"
@@ -15,8 +14,7 @@ cache: pip
 
 branches:
   only:
-  - fix-travis
-  - master
+  - stable
   - "/^\\d+\\.\\d+\\.\\d+[a]?\\d*$/"
 
 env:
@@ -46,7 +44,6 @@ jobs:
     after_success: echo "Deploying..."
     deploy:
     - provider: pypi
-      cleanup: true
       distributions: sdist bdist_wheel
       username: $PYPI_USERNAME
       password: $PYPI_PASSWORD
@@ -54,7 +51,6 @@ jobs:
         tags: true
         repo: $GITHUB_REPO
     - provider: releases
-      cleanup: true
       token: $GITHUB_TOKEN
       release_notes: "Please see https://github.com/${GITHUB_REPO}/blob/${TRAVIS_TAG}/CHANGELOG.rst for the full release notes."
       on:
