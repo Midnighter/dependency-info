@@ -25,7 +25,7 @@ import platform
 
 import pytest
 
-import depinfo.info as depi
+from depinfo import info as depi
 
 
 def test_get_sys_info():
