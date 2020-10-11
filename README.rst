@@ -22,8 +22,7 @@ Package Dependency Information
    :target: https://github.com/Midnighter/dependency-info/workflows/CI-CD
    :alt: GitHub Actions
 
-.. image:: https://codecov.io/gh/Midnighter/dependency-info/branch/stable/graph/badge
-.svg
+.. image:: https://codecov.io/gh/Midnighter/dependency-info/branch/stable/graph/badge.svg
    :target: https://codecov.io/gh/Midnighter/dependency-info
    :alt: Codecov
 
