@@ -17,13 +17,14 @@
 
 
 import platform
+from typing import Dict
 
 import pytest
 
 from depinfo import info as depi
 
 
-def test_get_sys_info():
+def test_get_sys_info() -> None:
     """Expect correct platform information."""
     blob = depi.get_sys_info()
     assert "OS" in blob
@@ -34,7 +35,7 @@ def test_get_sys_info():
     assert blob["Python"] == platform.python_version()
 
 
-def test_get_pkg_info():
+def test_get_pkg_info() -> None:
     """Expect minimal package dependencies."""
     blob = depi.get_pkg_info("depinfo")
     assert "depinfo" in blob
@@ -51,14 +52,14 @@ def test_get_pkg_info():
         ({"pip": "10.0.0", "wheel": "0.5"}, "pip   10.0.0\nwheel    0.5\n"),
     ],
 )
-def test_print_info(capsys, blob, output):
+def test_print_info(capsys, blob: Dict[str, str], output: str) -> None:
     """Expect stdout in order and correctly formatted."""
     depi.print_info(blob)
     captured = capsys.readouterr()
     assert captured.out == output
 
 
-def test_print_dependencies(capsys):
+def test_print_dependencies(capsys) -> None:
     """Expect all printed information in order."""
     depi.print_dependencies("depinfo")
     captured = capsys.readouterr()
@@ -78,7 +79,7 @@ def test_print_dependencies(capsys):
     assert lines[13].startswith("wheel")
 
 
-def test_show_versions(capsys):
+def test_show_versions(capsys) -> None:
     """Expect all printed information in order."""
     depi.show_versions()
     captured = capsys.readouterr()

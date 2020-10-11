@@ -17,6 +17,7 @@
 
 
 import platform
+from typing import Dict, Iterable
 
 import pkg_resources
 from pipdeptree import build_dist_index, construct_tree
@@ -25,7 +26,7 @@ from pipdeptree import build_dist_index, construct_tree
 __all__ = ("print_dependencies", "show_versions", "get_pkg_info", "get_sys_info")
 
 
-def get_sys_info():
+def get_sys_info() -> Dict[str, str]:
     """Return system information as a dict."""
     blob = dict()
     blob["OS"] = platform.system()
@@ -35,8 +36,9 @@ def get_sys_info():
 
 
 def get_pkg_info(
-    package_name, additional=("pip", "flit", "pbr", "setuptools", "wheel")
-):
+    package_name: str,
+    additional: Iterable[str] = ("pip", "flit", "pbr", "setuptools", "wheel"),
+) -> Dict[str, str]:
     """Return build and package dependencies as a dict."""
     dist_index = build_dist_index(pkg_resources.working_set)
     root = dist_index[package_name]
@@ -55,14 +57,14 @@ def get_pkg_info(
     return dependencies
 
 
-def print_info(info):
+def print_info(info: Dict[str, str]) -> None:
     """Print an information dict to stdout in order."""
     format_str = "{:<%d} {:>%d}" % (max(map(len, info)), max(map(len, info.values())))
     for name in sorted(info):
         print(format_str.format(name, info[name]))
 
 
-def print_dependencies(package_name):
+def print_dependencies(package_name: str) -> None:
     """Print the formatted information to standard out."""
     info = get_sys_info()
     print("\nSystem Information")
@@ -75,6 +77,6 @@ def print_dependencies(package_name):
     print_info(info)
 
 
-def show_versions():
+def show_versions() -> None:
     """Print dependency information for this package."""
     print_dependencies("depinfo")
