@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 # Copyright (c) 2018, Moritz E.
@@ -8,7 +7,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,14 +16,11 @@
 # limitations under the License.
 
 
-"""Setup the dependency information package."""
+"""Set up the dependency information package."""
 
-
-from __future__ import absolute_import
-
-from setuptools import setup
 
 import versioneer
+from setuptools import setup
 
 
 # All other arguments are defined in `setup.cfg`.
