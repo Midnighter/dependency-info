@@ -17,8 +17,12 @@
 
 
 import platform
-from importlib.metadata import PackageNotFoundError, distribution, version
 from typing import Dict, Iterable, Tuple
+
+try:
+    from importlib.metadata import PackageNotFoundError, distribution, version
+except ModuleNotFoundError:
+    from importlib_metadata import PackageNotFoundError, distribution, version
 
 
 __all__ = (
