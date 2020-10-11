@@ -14,39 +14,22 @@ Package Dependency Information
    :target: https://www.apache.org/licenses/LICENSE-2.0
    :alt: Apache Software License Version 2.0
 
-.. image:: https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg
-   :target: https://github.com/Midnighter/dependency-info/blob/master/.github/CODE_OF_CONDUCT.md
+.. image:: https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg
+   :target: .github/CODE_OF_CONDUCT.md
    :alt: Code of Conduct
 
-.. image:: https://img.shields.io/travis/Midnighter/dependency-info/master.svg?label=Travis%20CI
-   :target: https://travis-ci.org/Midnighter/dependency-info
-   :alt: Travis CI
+.. image:: https://github.com/Midnighter/dependency-info/workflows/CI-CD/badge.svg
+   :target: https://github.com/Midnighter/dependency-info/workflows/CI-CD
+   :alt: GitHub Actions
 
-.. image:: https://codecov.io/gh/Midnighter/dependency-info/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/Midnighter/dependency-info/branch/stable/graph/badge
+.svg
    :target: https://codecov.io/gh/Midnighter/dependency-info
    :alt: Codecov
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/ambv/black
-   :alt: Black
-
-A utility Python package intended for other library packages. Provides a
-function that when called with your package name, will print
-platform and dependency information.
-
-Install
-=======
-
-It's as simple as:
-
-.. code-block:: console
-
-    pip install depinfo
-
-Usage
-=====
-
-The easiest way is to implement the following in your package somewhere.
+   :alt: Code Style Black
 
 .. code-block:: python
 
@@ -87,7 +70,6 @@ Example
     Package Versions
     ================
     pip        10.0.1
-    pipdeptree 0.12.1
     setuptools 39.0.1
     wheel      0.31.0
 
