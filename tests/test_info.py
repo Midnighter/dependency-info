@@ -21,12 +21,12 @@ from typing import Dict
 
 import pytest
 
-from depinfo import info as depi
+import depinfo
 
 
 def test_get_sys_info() -> None:
     """Expect correct platform information."""
-    blob = depi.get_sys_info()
+    blob = depinfo.get_sys_info()
     assert "OS" in blob
     assert "OS-release" in blob
     assert "Python" in blob
@@ -37,12 +37,11 @@ def test_get_sys_info() -> None:
 
 def test_get_pkg_info() -> None:
     """Expect minimal package dependencies."""
-    blob = depi.get_pkg_info("depinfo")
+    blob = depinfo.get_pkg_info("depinfo")
     assert "depinfo" in blob
     assert "pip" in blob
     assert "setuptools" in blob
     assert "wheel" in blob
-    assert "pipdeptree" in blob
 
 
 @pytest.mark.parametrize(
@@ -54,14 +53,14 @@ def test_get_pkg_info() -> None:
 )
 def test_print_info(capsys, blob: Dict[str, str], output: str) -> None:
     """Expect stdout in order and correctly formatted."""
-    depi.print_info(blob)
+    depinfo.print_info(blob)
     captured = capsys.readouterr()
     assert captured.out == output
 
 
 def test_print_dependencies(capsys) -> None:
     """Expect all printed information in order."""
-    depi.print_dependencies("depinfo")
+    depinfo.print_dependencies("depinfo")
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
     assert lines[1].startswith("System Information")
@@ -72,16 +71,15 @@ def test_print_dependencies(capsys) -> None:
 
     assert lines[7].startswith("Package Versions")
     assert lines[8].startswith("================")
-    assert lines[9].startswith("depinfo")
-    assert lines[10].startswith("pip")
-    assert lines[11].startswith("pipdeptree")
-    assert lines[12].startswith("setuptools")
-    assert lines[13].startswith("wheel")
+    assert any(line.startswith("depinfo") for line in lines[9:])
+    assert any(line.startswith("pip") for line in lines[9:])
+    assert any(line.startswith("setuptools") for line in lines[9:])
+    assert any(line.startswith("wheel") for line in lines[9:])
 
 
 def test_show_versions(capsys) -> None:
     """Expect all printed information in order."""
-    depi.show_versions()
+    depinfo.show_versions()
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
     assert lines[1].startswith("System Information")
@@ -92,8 +90,7 @@ def test_show_versions(capsys) -> None:
 
     assert lines[7].startswith("Package Versions")
     assert lines[8].startswith("================")
-    assert lines[9].startswith("depinfo")
-    assert lines[10].startswith("pip")
-    assert lines[11].startswith("pipdeptree")
-    assert lines[12].startswith("setuptools")
-    assert lines[13].startswith("wheel")
+    assert any(line.startswith("depinfo") for line in lines[9:])
+    assert any(line.startswith("pip") for line in lines[9:])
+    assert any(line.startswith("setuptools") for line in lines[9:])
+    assert any(line.startswith("wheel") for line in lines[9:])

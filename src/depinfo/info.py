@@ -17,13 +17,17 @@
 
 
 import platform
-from typing import Dict, Iterable
-
-import pkg_resources
-from pipdeptree import build_dist_index, construct_tree
+from importlib.metadata import PackageNotFoundError, distribution, version
+from typing import Dict, Iterable, Tuple
 
 
-__all__ = ("print_dependencies", "show_versions", "get_pkg_info", "get_sys_info")
+__all__ = (
+    "get_pkg_info",
+    "get_sys_info",
+    "print_dependencies",
+    "print_info",
+    "show_versions",
+)
 
 
 def get_sys_info() -> Dict[str, str]:
@@ -35,33 +39,49 @@ def get_sys_info() -> Dict[str, str]:
     return blob
 
 
+def _get_package_version(requirement: str) -> Tuple[str, str]:
+    """
+    Return a package, version pair from a requirement description.
+
+    Raises:
+        importlib.metadata.PackageNotFoundError: If the package is not found in the
+            environment.
+
+    """
+    package = requirement.split(";", 1)[0].strip()
+    return package, version(package)
+
+
 def get_pkg_info(
     package_name: str,
-    additional: Iterable[str] = ("pip", "flit", "pbr", "setuptools", "wheel"),
+    additional: Iterable[str] = ("pip", "flit", "pbr", "poetry", "setuptools", "wheel"),
 ) -> Dict[str, str]:
     """Return build and package dependencies as a dict."""
-    dist_index = build_dist_index(pkg_resources.working_set)
-    root = dist_index[package_name]
-    tree = construct_tree(dist_index)
-    dependencies = {pkg.name: pkg.installed_version for pkg in tree[root]}
-    # Add the initial package itself.
-    root = root.as_requirement()
-    dependencies[root.name] = root.installed_version
-    # Retrieve information on additional packages such as build tools.
+    dist = distribution(package_name)
+    dependencies = {package_name: dist.version}
+    for requirement in dist.requires:
+        try:
+            pkg, ver = _get_package_version(requirement)
+        except PackageNotFoundError:
+            dependencies[requirement] = "not installed"
+        else:
+            dependencies[pkg] = ver
     for name in additional:
         try:
-            pkg = dist_index[name].as_requirement()
-            dependencies[pkg.name] = pkg.installed_version
-        except KeyError:
+            pkg, ver = _get_package_version(name)
+        except PackageNotFoundError:
             continue
+        else:
+            dependencies[pkg] = ver
     return dependencies
 
 
 def print_info(info: Dict[str, str]) -> None:
     """Print an information dict to stdout in order."""
-    format_str = "{:<%d} {:>%d}" % (max(map(len, info)), max(map(len, info.values())))
+    longest_package = max(map(len, info))
+    longest_version = max(map(len, info.values()))
     for name in sorted(info):
-        print(format_str.format(name, info[name]))
+        print(f"{name:<{longest_package}} {info[name]:>{longest_version}}")
 
 
 def print_dependencies(package_name: str) -> None:
