@@ -5,6 +5,12 @@ Change Log
 Next Release
 ------------
 
+1.6.0 (2020-10-11)
+------------------
+* Switch to versioneer-518.
+* Remove ``pipdeptree`` and use ``importlib.metadata`` instead.
+* Support Python version 3.6 - 3.9.
+
 1.5.1 (2019-02-17)
 ------------------
 * Improve internal quality control.
