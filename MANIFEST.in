@@ -1,4 +1,3 @@
-include versioneer.py
 include src/depinfo/_version.py
 include README.rst
 include LICENSE
