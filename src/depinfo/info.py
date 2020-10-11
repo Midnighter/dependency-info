@@ -19,6 +19,7 @@
 import platform
 from typing import Dict, Iterable, Tuple
 
+
 try:
     from importlib.metadata import PackageNotFoundError, distribution, version
 except ModuleNotFoundError:
