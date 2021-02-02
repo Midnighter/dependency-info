@@ -22,6 +22,7 @@ from typing import Dict
 import pytest
 
 import depinfo
+from depinfo.info import _get_package_version
 
 
 def test_get_sys_info() -> None:
@@ -56,6 +57,26 @@ def test_print_info(capsys, blob: Dict[str, str], output: str) -> None:
     depinfo.print_info(blob)
     captured = capsys.readouterr()
     assert captured.out == output
+
+
+@pytest.mark.parametrize(
+    "requirement, package",
+    [
+        ("pip", "pip"),
+        ("pip (~=1.4)", "pip"),
+        ("pip (==5.18.3)", "pip"),
+        ("pip (<1.4.6)", "pip"),
+        ("pip (>1.4.6)", "pip"),
+        ("pip>=2.0.5", "pip"),
+        ("pip==1.19.3", "pip"),
+        ('pip>=6.1; extra == "development"', "pip"),
+        ('pip>=6.1 ; extra == "development"', "pip"),
+    ],
+)
+def test_get_package_version(requirement, package):
+    """Expect package to be parsed from requirement."""
+    p, _ = _get_package_version(requirement)
+    assert p == package
 
 
 def test_print_dependencies(capsys) -> None:

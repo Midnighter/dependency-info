@@ -17,6 +17,7 @@
 
 
 import platform
+import re
 from typing import Dict, Iterable, Tuple
 
 
@@ -53,7 +54,7 @@ def _get_package_version(requirement: str) -> Tuple[str, str]:
             environment.
 
     """
-    package = requirement.split(";", 1)[0].strip()
+    package = re.split(r"[;<>=\s]", requirement)[0]
     return package, version(package)
 
 
