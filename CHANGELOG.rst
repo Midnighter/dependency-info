@@ -4,6 +4,7 @@ Change Log
 
 Next Release
 ------------
+* Improved parsing of package information
 
 1.6.0 (2020-10-11)
 ------------------
