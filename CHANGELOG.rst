@@ -4,7 +4,11 @@ Change Log
 
 Next Release
 ------------
-* Improved parsing of package information
+
+
+1.7.0 (2021-02-03)
+------------------
+* Improve parsing of package information (#6).
 
 1.6.0 (2020-10-11)
 ------------------
