@@ -18,6 +18,3 @@
 
 __author__ = "Moritz E. Beber"
 __email__ = "midnighter@posteo.net"
-
-
-from .info import *

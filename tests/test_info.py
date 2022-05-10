@@ -22,7 +22,7 @@ from typing import Dict
 import pytest
 
 import depinfo
-from depinfo.info import _get_package_version
+from depinfo.domain import _get_package_version
 
 
 def test_get_sys_info() -> None:
