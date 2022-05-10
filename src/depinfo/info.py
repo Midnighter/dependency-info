@@ -92,15 +92,13 @@ def print_info(info: Dict[str, str]) -> None:
 
 def print_dependencies(package_name: str) -> None:
     """Print the formatted information to standard out."""
-    info = get_sys_info()
     print("\nSystem Information")
     print("==================")
-    print_info(info)
+    print_info(get_sys_info())
 
-    info = get_pkg_info(package_name)
     print("\nPackage Versions")
     print("================")
-    print_info(info)
+    print_info(get_pkg_info(package_name))
 
 
 def show_versions() -> None:
