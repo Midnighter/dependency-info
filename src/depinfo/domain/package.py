@@ -67,19 +67,25 @@ class Package:
             and requirements are empty.
 
         """
+        name = cls._normalize_name(name)
         try:
             dist = distribution(name)
         except PackageNotFoundError:
             result = cls(name=name, version=None, requirements=[])
         else:
             result = cls(
-                name=dist.name,
+                name=name,
                 version=dist.version,
                 requirements=[]
                 if dist.requires is None
-                else [cls._get_name(req) for req in dist.requires],
+                else [cls._normalize_name(cls._get_name(req)) for req in dist.requires],
             )
         return result
+
+    @classmethod
+    def _normalize_name(cls, name: str) -> str:
+        """"""
+        return name.lower()
 
     @classmethod
     def _get_name(cls, requirement: str) -> str:

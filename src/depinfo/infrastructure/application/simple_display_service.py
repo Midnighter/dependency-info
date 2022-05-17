@@ -109,3 +109,4 @@ class SimpleDisplayService(AbstractDisplayService):
             if pkg.name in seen:
                 continue
             yield pkg.name, "missing" if pkg.version is None else pkg.version
+            seen.add(pkg.name)
