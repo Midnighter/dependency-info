@@ -27,7 +27,7 @@ from depinfo.domain import _get_package_version
 
 def test_get_sys_info() -> None:
     """Expect correct platform information."""
-    blob = depinfo.domain.get_sys_info()
+    blob = depinfo._domain.get_sys_info()
     assert "OS" in blob
     assert "OS-release" in blob
     assert "Python" in blob
@@ -38,7 +38,7 @@ def test_get_sys_info() -> None:
 
 def test_get_pkg_info() -> None:
     """Expect minimal package dependencies."""
-    blob = depinfo.domain.get_pkg_info("depinfo")
+    blob = depinfo._domain.get_pkg_info("depinfo")
     assert "depinfo" in blob
     assert "pip" in blob
     assert "setuptools" in blob
@@ -54,7 +54,7 @@ def test_get_pkg_info() -> None:
 )
 def test_print_info(capsys, blob: Dict[str, str], output: str) -> None:
     """Expect stdout in order and correctly formatted."""
-    depinfo.domain.print_info(blob)
+    depinfo._domain.print_info(blob)
     captured = capsys.readouterr()
     assert captured.out == output
 
@@ -81,7 +81,7 @@ def test_get_package_version(requirement, package):
 
 def test_print_dependencies(capsys) -> None:
     """Expect all printed information in order."""
-    depinfo.domain.print_dependencies("depinfo")
+    depinfo._domain.print_dependencies("depinfo")
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
     assert lines[1].startswith("System Information")
@@ -100,7 +100,7 @@ def test_print_dependencies(capsys) -> None:
 
 def test_show_versions(capsys) -> None:
     """Expect all printed information in order."""
-    depinfo.domain.show_versions()
+    depinfo._domain.show_versions()
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
     assert lines[1].startswith("System Information")
