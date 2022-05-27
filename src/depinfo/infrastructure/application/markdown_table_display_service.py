@@ -23,22 +23,9 @@ from depinfo.domain import DependencyReport, Package, Platform, Python
 class MarkdownTableDisplayService(AbstractDisplayService):
     """"""
 
-    def __init__(
-        self,
-        report: DependencyReport,
-        platform: Platform,
-        python: Python,
-        build_tools: List[Package],
-        **kwargs,
-    ) -> None:
+    def __init__(self, report: DependencyReport, **kwargs) -> None:
         """"""
-        super().__init__(
-            report=report,
-            platform=platform,
-            python=python,
-            build_tools=build_tools,
-            **kwargs,
-        )
+        super().__init__(report=report, **kwargs)
 
     def display(self, max_depth: int = 1, **kwargs) -> None:
         """"""
@@ -51,8 +38,8 @@ class MarkdownTableDisplayService(AbstractDisplayService):
                     *self._format_table(
                         ["", ""],
                         [
-                            (self._platform.name, self._platform.version),
-                            (self._python.name, self._python.version),
+                            (self._report.platform.name, self._report.platform.version),
+                            (self._report.python.name, self._report.python.version),
                         ],
                     ),
                 ]
@@ -74,7 +61,7 @@ class MarkdownTableDisplayService(AbstractDisplayService):
         tools = sorted(
             (
                 (pkg.name, pkg.version)
-                for pkg in self._build_tools
+                for pkg in self._report.build_tools
                 if pkg.version is not None
             ),
             key=itemgetter(0),

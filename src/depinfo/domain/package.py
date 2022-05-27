@@ -24,12 +24,12 @@ from typing import ClassVar, List, Optional, Pattern
 
 
 try:
-    from importlib.metadata import PackageNotFoundError, distribution, version
+    from importlib.metadata import PackageNotFoundError, distribution
 except ModuleNotFoundError:
-    from importlib_metadata import PackageNotFoundError, distribution, version
+    from importlib_metadata import PackageNotFoundError, distribution
 
 
-@dataclass(frozen=True, kw_only=True)
+@dataclass(frozen=True)
 class Package:
     """
     Define a package model.
@@ -85,7 +85,7 @@ class Package:
     @classmethod
     def _normalize_name(cls, name: str) -> str:
         """"""
-        return name.lower()
+        return name.lower().replace("_", "-")
 
     @classmethod
     def _get_name(cls, requirement: str) -> str:

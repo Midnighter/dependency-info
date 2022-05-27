@@ -14,28 +14,17 @@
 
 
 from abc import ABC, abstractmethod
-from typing import List
 
-from depinfo.domain import DependencyReport, Package, Platform, Python
+from depinfo.domain import DependencyReport
 
 
 class AbstractDisplayService(ABC):
     """"""
 
-    def __init__(
-        self,
-        report: DependencyReport,
-        platform: Platform,
-        python: Python,
-        build_tools: List[Package],
-        **kwargs,
-    ) -> None:
+    def __init__(self, report: DependencyReport, **kwargs) -> None:
         """"""
         super().__init__(**kwargs)
         self._report = report
-        self._platform = platform
-        self._python = python
-        self._build_tools = build_tools
 
     @abstractmethod
     def display(self, max_depth: int = 1, **kwargs) -> None:
