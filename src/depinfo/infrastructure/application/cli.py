@@ -17,11 +17,10 @@ import argparse
 import logging
 from typing import List, Optional
 
-from depinfo.domain import DependencyReport, Package, Platform, Python
-from depinfo.infrastructure.application import SimpleDisplayService
-from depinfo.infrastructure.application.markdown_table_display_service import (
-    MarkdownTableDisplayService,
-)
+from depinfo.domain import DependencyReport
+
+from .display_service_factory import DisplayServiceFactory, DisplayType
+
 
 MAX_DEPTH = 5
 
@@ -37,7 +36,7 @@ def parse_arguments(argv: Optional[List[str]] = None) -> argparse.Namespace:
         metavar="PACKAGE",
         help="The package's distribution name.",
     )
-    default_build_tools = "conda,flit,hatch,mamba,pbr,poetry,pip,setuptools,wheel"
+    default_build_tools = "conda,flit,hatch,mamba,pbr,pip,poetry,setuptools,wheel"
     parser.add_argument(
         "--build-tools",
         help=f"A comma separated list of Python package managers "
@@ -75,15 +74,13 @@ def main(argv: Optional[List[str]] = None) -> None:
     logging.basicConfig(level=args.log_level, format="[%(levelname)s] %(message)s")
     assert args.max_depth >= 0, "The maximum depth must be >=0."
     assert args.max_depth < MAX_DEPTH, "Don't exaggerate!"
+    report = DependencyReport.from_root(
+        args.package_name,
+        [token.strip() for token in args.build_tools.split(",")],
+        max_depth=args.max_depth,
+    )
     if args.markdown:
-        service = MarkdownTableDisplayService
+        service = DisplayServiceFactory.create(DisplayType.Markdown, report)
     else:
-        service = SimpleDisplayService
-    service(
-        platform=Platform.create(),
-        python=Python.create(),
-        report=DependencyReport.from_root(args.package_name, max_depth=args.max_depth),
-        build_tools=[
-            Package.from_name(token.strip()) for token in args.build_tools.split(",")
-        ],
-    ).display(max_depth=args.max_depth)
+        service = DisplayServiceFactory.create(DisplayType.Simple, report)
+    service.display(max_depth=args.max_depth)

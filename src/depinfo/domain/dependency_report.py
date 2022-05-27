@@ -20,18 +20,14 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass
-from typing import Dict, Iterator, Tuple
-
-
-try:
-    from importlib.metadata import PackageNotFoundError, distribution, version
-except ModuleNotFoundError:
-    from importlib_metadata import PackageNotFoundError, distribution, version
+from typing import Dict, Iterable, Iterator, List, Tuple
 
 from .package import Package
+from .platform import Platform
+from .python import Python
 
 
-@dataclass(frozen=True, kw_only=True)
+@dataclass(frozen=True)
 class DependencyReport:
     """
     Define a dependency report with requirements information.
@@ -44,12 +40,16 @@ class DependencyReport:
     """
 
     root: Package
+    platform: Platform
+    python: Python
+    build_tools: List[Package]
     packages: Dict[str, Package]
 
     @classmethod
     def from_root(
         cls,
         root: str,
+        build_tools: Iterable[str],
         max_depth: int = 1,
     ) -> DependencyReport:
         """
@@ -60,25 +60,35 @@ class DependencyReport:
 
         Args:
             root: The distribution name of the root package.
+            build_tools: A list of build packages to include.
             max_depth: The maximum desired depth of requirements nesting.
 
         Returns:
-            A package instance with potentially nested requirements.
+            A dependency report instance with potentially nested requirements.
 
         """
         discovered = deque([(0, root)])
         packages: Dict[str, Package] = {}
         while len(discovered) > 0:
             level, name = discovered.popleft()
-            if level > max_depth:
-                break
             if name in packages:
                 continue
             packages[name] = pkg = Package.from_name(name)
-            discovered.extend(((level + 1, req) for req in pkg.requirements))
+            if level < max_depth:
+                discovered.extend(((level + 1, req) for req in pkg.requirements))
+        tools: List[Package] = []
+        for name in build_tools:
+            if name in packages:
+                tools.append(packages[name])
+                continue
+            packages[name] = pkg = Package.from_name(name)
+            tools.append(pkg)
         return cls(
             root=packages[root],
+            build_tools=tools,
             packages=packages,
+            platform=Platform.create(),
+            python=Python.create(),
         )
 
     def iter_requirements(self, max_depth: int = 1) -> Iterator[Tuple[int, Package]]:
@@ -96,12 +106,8 @@ class DependencyReport:
         discovered = deque([(0, self.root)])
         while len(discovered) > 0:
             level, pkg = discovered.popleft()
-            if level > max_depth:
-                break
-            discovered.extend(
-                (
-                    (level + 1, self.packages.setdefault(req, Package.from_name(req)))
-                    for req in pkg.requirements
+            if level < max_depth:
+                discovered.extend(
+                    ((level + 1, self.packages[req]) for req in pkg.requirements)
                 )
-            )
             yield level, pkg
