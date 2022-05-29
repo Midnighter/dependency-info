@@ -117,3 +117,24 @@ class DependencyReport:
                     ((level + 1, self.packages[req]) for req in pkg.requirements)
                 )
             yield level, pkg
+
+    def iter_unique_requirements(
+        self, missing_version: str = "missing", max_depth: int = 1
+    ) -> Iterator[Tuple[str, str]]:
+        """
+        Iterate over package name, version pairs up to a maximum dependency depth.
+
+        Args:
+            missing_version: A string to replace missing version information.
+            max_depth: The maximum desired depth of dependency information.
+
+        Returns:
+            An iterator over package name, version pairs.
+
+        """
+        seen = set()
+        for _, pkg in self.iter_requirements(max_depth=max_depth):
+            if pkg.name in seen:
+                continue
+            yield pkg.name, missing_version if pkg.version is None else pkg.version
+            seen.add(pkg.name)

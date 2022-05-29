@@ -13,40 +13,51 @@
 # limitations under the License.
 
 
+"""Provide a service that displays dependency information as markdown tables."""
+
+
 from operator import itemgetter
-from typing import Iterator, List, Tuple
+from typing import List, Tuple
 
 from depinfo.application import AbstractDisplayService
-from depinfo.domain import DependencyReport, Package, Platform, Python
+from depinfo.domain import DependencyReport
 
 
 class MarkdownTableDisplayService(AbstractDisplayService):
-    """"""
+    """Define a service that displays dependency information as markdown tables."""
 
-    def __init__(self, report: DependencyReport, **kwargs) -> None:
-        """"""
-        super().__init__(report=report, **kwargs)
+    @classmethod
+    def display(cls, report: DependencyReport, max_depth: int = 1, **kwargs) -> None:
+        """
+        Display a dependency report to a desired maximum depth as markdown tables.
 
-    def display(self, max_depth: int = 1, **kwargs) -> None:
-        """"""
+        Args:
+            report: A dependency report instance.
+            max_depth:  The maximum desired depth (default 1).
+            **kwargs: Keyword arguments are ignored.
+
+        """
         print(
             "\n".join(
                 [
                     "",
                     "### Platform Information",
                     "",
-                    *self._format_table(
+                    *cls._format_table(
                         ["", ""],
                         [
-                            (self._report.platform.name, self._report.platform.version),
-                            (self._report.python.name, self._report.python.version),
+                            (report.platform.name, report.platform.version),
+                            (report.python.name, report.python.version),
                         ],
                     ),
                 ]
             )
         )
         requirements = sorted(
-            self._iter_unique_requirements(max_depth=max_depth), key=itemgetter(0)
+            report.iter_unique_requirements(
+                missing_version="**missing**", max_depth=max_depth
+            ),
+            key=itemgetter(0),
         )
         print(
             "\n".join(
@@ -54,14 +65,14 @@ class MarkdownTableDisplayService(AbstractDisplayService):
                     "",
                     "### Dependency Information",
                     "",
-                    *self._format_table(["Package", "Version"], requirements),
+                    *cls._format_table(["Package", "Version"], requirements),
                 ]
             )
         )
         tools = sorted(
             (
                 (pkg.name, pkg.version)
-                for pkg in self._report.build_tools
+                for pkg in report.build_tools
                 if pkg.version is not None
             ),
             key=itemgetter(0),
@@ -72,7 +83,7 @@ class MarkdownTableDisplayService(AbstractDisplayService):
                     "",
                     "### Build Tools Information",
                     "",
-                    *self._format_table(["Package", "Version"], tools),
+                    *cls._format_table(["Package", "Version"], tools),
                 ]
             )
         )
@@ -81,7 +92,7 @@ class MarkdownTableDisplayService(AbstractDisplayService):
     def _format_table(
         cls, header: List[str], pairs: List[Tuple[str, str]]
     ) -> List[str]:
-        """"""
+        """Format pairs of information as a markdown table with two columns."""
         max_len_name = max(max((len(pair[0]) for pair in pairs)), len(header[0]))
         max_len_version = max(max((len(pair[1]) for pair in pairs)), len(header[1]))
         result = [
@@ -93,14 +104,3 @@ class MarkdownTableDisplayService(AbstractDisplayService):
             for name, version in pairs
         )
         return result
-
-    def _iter_unique_requirements(
-        self, max_depth: int = 1
-    ) -> Iterator[Tuple[str, str]]:
-        """"""
-        seen = set()
-        for _, pkg in self._report.iter_requirements(max_depth=max_depth):
-            if pkg.name in seen:
-                continue
-            yield pkg.name, "**missing**" if pkg.version is None else pkg.version
-            seen.add(pkg.name)

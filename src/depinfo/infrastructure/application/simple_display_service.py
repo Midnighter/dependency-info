@@ -13,39 +13,50 @@
 # limitations under the License.
 
 
+"""Provide a service that displays dependency information as simple tables."""
+
+
 from operator import itemgetter
-from typing import Iterator, List, Tuple
+from typing import List, Tuple
 
 from depinfo.application import AbstractDisplayService
-from depinfo.domain import DependencyReport, Package, Platform, Python
+from depinfo.domain import DependencyReport
 
 
 class SimpleDisplayService(AbstractDisplayService):
-    """"""
+    """Define a service that displays dependency information as simple tables."""
 
-    def __init__(self, report: DependencyReport, **kwargs) -> None:
-        """"""
-        super().__init__(report=report, **kwargs)
+    @classmethod
+    def display(cls, report: DependencyReport, max_depth: int = 1, **kwargs) -> None:
+        """
+        Display a dependency report to a desired maximum depth as simple tables.
 
-    def display(self, max_depth: int = 1, **kwargs) -> None:
-        """"""
+        Args:
+            report: A dependency report instance.
+            max_depth:  The maximum desired depth (default 1).
+            **kwargs: Keyword arguments are ignored.
+
+        """
         print(
             "\n".join(
                 [
                     "",
                     "Platform Information",
                     "--------------------",
-                    *self._format_pairs(
+                    *cls._format_pairs(
                         [
-                            (self._report.platform.name, self._report.platform.version),
-                            (self._report.python.name, self._report.python.version),
+                            (report.platform.name, report.platform.version),
+                            (report.python.name, report.python.version),
                         ]
                     ),
                 ]
             )
         )
         requirements = sorted(
-            self._iter_unique_requirements(max_depth=max_depth), key=itemgetter(0)
+            report.iter_unique_requirements(
+                missing_version="missing", max_depth=max_depth
+            ),
+            key=itemgetter(0),
         )
         print(
             "\n".join(
@@ -53,7 +64,7 @@ class SimpleDisplayService(AbstractDisplayService):
                     "",
                     "Dependency Information",
                     "----------------------",
-                    *self._format_pairs(requirements),
+                    *cls._format_pairs(requirements),
                 ]
             )
         )
@@ -63,11 +74,11 @@ class SimpleDisplayService(AbstractDisplayService):
                     "",
                     "Build Tools Information",
                     "-----------------------",
-                    *self._format_pairs(
+                    *cls._format_pairs(
                         sorted(
                             (
                                 (pkg.name, pkg.version)
-                                for pkg in self._report.build_tools
+                                for pkg in report.build_tools
                                 if pkg.version is not None
                             ),
                             key=itemgetter(0),
@@ -79,21 +90,10 @@ class SimpleDisplayService(AbstractDisplayService):
 
     @classmethod
     def _format_pairs(cls, pairs: List[Tuple[str, str]]) -> List[str]:
-        """"""
+        """Format pairs as two fixed width, left- and right-aligned columns."""
         max_len_name = max((len(pair[0]) for pair in pairs))
         max_len_version = max((len(pair[1]) for pair in pairs))
         return [
             f"{name:<{max_len_name}} {version:>{max_len_version}}"
             for name, version in pairs
         ]
-
-    def _iter_unique_requirements(
-        self, max_depth: int = 1
-    ) -> Iterator[Tuple[str, str]]:
-        """"""
-        seen = set()
-        for _, pkg in self._report.iter_requirements(max_depth=max_depth):
-            if pkg.name in seen:
-                continue
-            yield pkg.name, "missing" if pkg.version is None else pkg.version
-            seen.add(pkg.name)
