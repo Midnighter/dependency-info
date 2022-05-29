@@ -85,7 +85,7 @@ class Package:
 
     @classmethod
     def _normalize_name(cls, name: str) -> str:
-        """"""
+        """Normalize a package's name to lower case with hyphens only."""
         return name.lower().replace("_", "-")
 
     @classmethod

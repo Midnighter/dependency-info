@@ -36,6 +36,12 @@ class DependencyReport:
     from its name via a convenient factory method.
 
     Attributes:
+        root: The root package instance for which to follow dependencies.
+        platform: A `Platform` information instance.
+        python: A `Python` information instance.
+        build_tools: A list of package instances which are considered build tools rather
+            than direct dependencies.
+        packages: A map from package names to instances.
 
     """
 

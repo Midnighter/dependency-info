@@ -13,6 +13,9 @@
 # limitations under the License.
 
 
+"""Provide a command line interface for printing dependency information."""
+
+
 import argparse
 import logging
 from typing import List, Optional
