@@ -25,22 +25,25 @@ from depinfo.domain import DependencyReport, Package, Platform, Python
 
 @pytest.fixture(scope="module")
 def platform() -> Platform:
+    """Provide a platform fixture."""
     return Platform(name="Pi", version="3.1.4")
 
 
 @pytest.fixture(scope="module")
 def python() -> Python:
+    """Provide a Python fixture."""
     return Python(name="PyPy", version="4.2.0")
 
 
 @pytest.fixture(scope="module")
 def depinfo() -> Package:
+    """Provide a package fixture."""
     return Package.from_name("depinfo")
 
 
 @pytest.fixture(scope="module")
 def report(platform: Platform, python: Python, depinfo: Package) -> DependencyReport:
-    """"""
+    """Provide a dependency report fixture."""
     tools = ["pip", "setuptools"]
     packages = {depinfo.name: depinfo}
     for name in depinfo.requirements + tools:
@@ -68,7 +71,7 @@ def test_init(
 
 
 def test_iter_requirements(report: DependencyReport, depinfo: Package) -> None:
-    """Test that"""
+    """Test that requirements can be iterated as expected."""
     assert next(report.iter_requirements(max_depth=0)) == (0, depinfo)
     assert {pkg.name for _, pkg in report.iter_requirements()}.issuperset(
         {"importlib-metadata"}
@@ -77,6 +80,7 @@ def test_iter_requirements(report: DependencyReport, depinfo: Package) -> None:
 
 
 def test_from_root() -> None:
+    """Test dependency report creation from a root name."""
     report = DependencyReport.from_root("depinfo", ("pip", "setuptools"))
     assert {pkg.name for _, pkg in report.iter_requirements(max_depth=0)}.issuperset(
         {"depinfo"}
