@@ -35,5 +35,9 @@ def test_init(attributes: Dict[str, str]) -> None:
 def test_create() -> None:
     """Test that the platform is detected consistently."""
     platform = Platform.create()
-    assert platform.name == sys.platform.title()
+    os_name = sys.platform.title()
+    if os_name == "Win32":
+        # Just because it's fun for platform and sys to provide different values.
+        os_name = "Windows"
+    assert platform.name == os_name
     assert platform.version
