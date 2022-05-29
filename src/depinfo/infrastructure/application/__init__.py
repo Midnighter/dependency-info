@@ -14,3 +14,5 @@
 
 
 from .simple_display_service import SimpleDisplayService
+from .markdown_table_display_service import MarkdownTableDisplayService
+from .display_service_registry import DisplayType, DisplayServiceRegistry
