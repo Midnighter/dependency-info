@@ -5,6 +5,14 @@ Change Log
 Next Release
 ------------
 
+2.0.0 (2022-05-29)
+------------------
+* Switch to hexagonal architecture.
+* Switch to code organization inspired by Domain-Driven Design (DDD).
+* Implement a command line interface (CLI).
+* Implement a markdown table display.
+* Create a typed package.
+* Improve stylistic and type testing.
 
 1.7.0 (2021-02-03)
 ------------------
