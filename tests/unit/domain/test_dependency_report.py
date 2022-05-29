@@ -79,6 +79,16 @@ def test_iter_requirements(report: DependencyReport, depinfo: Package) -> None:
     assert {pkg.name for pkg in report.build_tools}.issuperset({"pip", "setuptools"})
 
 
+def test_iter_unique_requirements(report: DependencyReport) -> None:
+    """Test that unique requirements can be iterated as expected."""
+    assert {name for name, _ in report.iter_unique_requirements(max_depth=0)} == {
+        "depinfo"
+    }
+    assert {name for name, _ in report.iter_unique_requirements()}.issuperset(
+        {"depinfo", "importlib-metadata"}
+    )
+
+
 def test_from_root() -> None:
     """Test dependency report creation from a root name."""
     report = DependencyReport.from_root("depinfo", ("pip", "setuptools"))
