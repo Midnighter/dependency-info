@@ -105,8 +105,8 @@ class DependencyReport:
             max_depth: The maximum desired depth of requirements nesting to iterate
                 over.
 
-        Returns:
-            An iterator over level, package pairs.
+        Yields:
+            Dependency nesting level, package pairs.
 
         """
         discovered = deque([(0, self.root)])
@@ -128,8 +128,8 @@ class DependencyReport:
             missing_version: A string to replace missing version information.
             max_depth: The maximum desired depth of dependency information.
 
-        Returns:
-            An iterator over package name, version pairs.
+        Yields:
+            Package name, version pairs.
 
         """
         seen = set()
