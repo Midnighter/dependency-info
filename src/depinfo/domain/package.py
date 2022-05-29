@@ -95,7 +95,7 @@ class Package:
 
         Args:
             requirement: Package requirement metadata as described in PEP 566
-            (https://peps.python.org/pep-0566/).
+                (https://peps.python.org/pep-0566/).
 
         Returns:
             The package name.
