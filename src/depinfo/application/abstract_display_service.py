@@ -13,19 +13,26 @@
 # limitations under the License.
 
 
+"""Provide an abstract base class for dependency information display services."""
+
+
 from abc import ABC, abstractmethod
 
 from depinfo.domain import DependencyReport
 
 
 class AbstractDisplayService(ABC):
-    """"""
+    """Define an abstract base class for dependency information display services."""
 
-    def __init__(self, report: DependencyReport, **kwargs) -> None:
-        """"""
-        super().__init__(**kwargs)
-        self._report = report
-
+    @classmethod
     @abstractmethod
-    def display(self, max_depth: int = 1, **kwargs) -> None:
-        """"""
+    def display(cls, report: DependencyReport, max_depth: int = 1, **kwargs) -> None:
+        """
+        Display a dependency report to a desired maximum depth.
+
+        Args:
+            report: A dependency report instance.
+            max_depth:  The maximum desired depth (default 1).
+            **kwargs: Keyword arguments are passed on to the actual display method.
+
+        """
