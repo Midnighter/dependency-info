@@ -13,44 +13,45 @@
 # limitations under the License.
 
 
+"""Provide a display service factory."""
+
+
 from enum import Enum, auto
+from typing import Type
 
 from depinfo.application import AbstractDisplayService
-from depinfo.domain import DependencyReport
 
 
 class AutoNameEnum(Enum):
-    """"""
+    """Define an enumeration base class whose fields' names match the values."""
 
     @staticmethod
     def _generate_next_value_(name: str, _, __, ___) -> str:
-        """"""
+        """Use a field's name as its value."""
         return name
 
 
 class DisplayType(AutoNameEnum):
-    """"""
+    """Define an enumeration for supported display methods."""
 
     Simple = auto()
     Markdown = auto()
     Textual = auto()
 
 
-class DisplayServiceFactory:
-    """"""
+class DisplayServiceRegistry:
+    """Define a registry that returns display service classes based on given values."""
 
     @classmethod
-    def create(
-        cls, display: DisplayType, report: DependencyReport
-    ) -> AbstractDisplayService:
-        """"""
+    def display_service(cls, display: DisplayType) -> Type[AbstractDisplayService]:
+        """Return a display service class based on the given display type value."""
         if display is DisplayType.Simple:
             from .simple_display_service import SimpleDisplayService
 
-            return SimpleDisplayService(report=report)
+            return SimpleDisplayService
         elif display is DisplayType.Markdown:
             from .markdown_table_display_service import MarkdownTableDisplayService
 
-            return MarkdownTableDisplayService(report=report)
+            return MarkdownTableDisplayService
         else:
             raise ValueError(f"Unknown display type {display}.")
