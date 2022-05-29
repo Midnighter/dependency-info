@@ -18,11 +18,15 @@
 
 import argparse
 import logging
+import sys
 from typing import List, Optional
 
 from depinfo.domain import DependencyReport
 
 from .display_service_registry import DisplayServiceRegistry, DisplayType
+
+
+logger = logging.getLogger()
 
 
 MAX_DEPTH = 5
@@ -75,8 +79,9 @@ def main(argv: Optional[List[str]] = None) -> None:
     """Coordinate argument parsing, input validation, and program execution."""
     args = parse_arguments(argv)
     logging.basicConfig(level=args.log_level, format="[%(levelname)s] %(message)s")
-    assert args.max_depth >= 0, "The maximum depth must be >=0."
-    assert args.max_depth < MAX_DEPTH, "Don't exaggerate!"
+    if not (0 <= args.max_depth < MAX_DEPTH):
+        logger.critical(f"The maximum depth must be >=0 and <{MAX_DEPTH}.")
+        sys.exit(2)
     report = DependencyReport.from_root(
         args.package_name,
         [token.strip() for token in args.build_tools.split(",")],
