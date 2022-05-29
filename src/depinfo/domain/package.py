@@ -19,14 +19,15 @@
 from __future__ import annotations
 
 import re
+import sys
 from dataclasses import dataclass
 from typing import ClassVar, List, Optional, Pattern
 
 
-try:
-    from importlib.metadata import PackageNotFoundError, distribution
-except ModuleNotFoundError:
+if sys.version_info < (3, 8):
     from importlib_metadata import PackageNotFoundError, distribution
+else:
+    from importlib.metadata import PackageNotFoundError, distribution
 
 
 @dataclass(frozen=True)
