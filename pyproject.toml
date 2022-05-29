@@ -8,7 +8,7 @@ requires = [
 
 [tool.black]
 line-length = 88
-python-version = ['py38']
+python-version = ["py38"]
 
 [[tool.mypy.overrides]]
 module = [
