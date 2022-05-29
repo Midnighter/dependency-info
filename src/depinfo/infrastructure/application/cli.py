@@ -22,7 +22,7 @@ from typing import List, Optional
 
 from depinfo.domain import DependencyReport
 
-from .display_service_factory import DisplayServiceFactory, DisplayType
+from .display_service_registry import DisplayServiceRegistry, DisplayType
 
 
 MAX_DEPTH = 5
@@ -83,7 +83,7 @@ def main(argv: Optional[List[str]] = None) -> None:
         max_depth=args.max_depth,
     )
     if args.markdown:
-        service = DisplayServiceFactory.create(DisplayType.Markdown, report)
+        service = DisplayServiceRegistry.display_service(DisplayType.Markdown)
     else:
-        service = DisplayServiceFactory.create(DisplayType.Simple, report)
-    service.display(max_depth=args.max_depth)
+        service = DisplayServiceRegistry.display_service(DisplayType.Simple)
+    service.display(report=report, max_depth=args.max_depth)
