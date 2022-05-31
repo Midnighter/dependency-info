@@ -91,6 +91,8 @@ class SimpleDisplayService(AbstractDisplayService):
     @classmethod
     def _format_pairs(cls, pairs: List[Tuple[str, str]]) -> List[str]:
         """Format pairs as two fixed width, left- and right-aligned columns."""
+        if not pairs:
+            return []
         max_len_name = max((len(pair[0]) for pair in pairs))
         max_len_version = max((len(pair[1]) for pair in pairs))
         return [
