@@ -35,17 +35,15 @@ Example
 =======
 The simplest way to display dependencies is to use the command line tool 
 
-
 .. code-block:: console
-    depinfo "your-package-name"
 
+    depinfo "your-package-name"
 
 To print the dependencies of this package use
 
-
 .. code-block:: console
-    depinfo "depinfo"
 
+    depinfo "depinfo"
 
 .. code-block:: console
 
@@ -73,7 +71,6 @@ To print the dependencies of this package use
 
 Alternatively you can use this package directly from Python
 
-
 .. code-block:: python
 
     from depinfo.infrastructure.application import DisplayServiceRegistry, DisplayType
@@ -94,7 +91,6 @@ Alternatively you can use this package directly from Python
     )
     service = DisplayServiceRegistry.display_service(DisplayType.Simple)
     service.display(report, max_depth=max_depth)
-
 
 Copyright
 =========
