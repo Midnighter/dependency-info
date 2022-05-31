@@ -30,47 +30,68 @@ Package Dependency Information
    :target: https://github.com/ambv/black
    :alt: Code Style Black
 
-.. code-block:: python
-
-    from depinfo import print_dependencies
-
-
-    def show_versions():
-        print_dependencies("your-package-name")
-
-That's all there is to it.
-
-If instead you want to access and modify the information, you can make use of
-the underlying functions that return dictionaries that map package names to
-their current versions. By default it will include common build packages such as
-``pip``.
-
-.. code-block:: python
-
-    from depinfo import get_pkg_info
-    help(get_pkg_info)
 
 Example
 =======
+The simplest way to display dependencies is to use the command line tool 
 
-.. code-block:: python
+.. code-block:: console
+    depinfo "your-package-name"
 
-    from depinfo import print_dependencies
-    print_dependencies("depinfo")
+
+To show the dependencies of this package use
+
+.. code-block:: console
+    depinfo "depinfo"
+
 
 .. code-block:: console
 
-    System Information
-    ==================
-    OS                     Linux
-    OS-release 4.4.0-122-generic
-    Python                 3.6.5
+    Platform Information
+    --------------------
+    Linux   5.13.0-44-generic-x86_64
+    CPython                   3.9.13
+    
+    Dependency Information
+    ----------------------
+    black                              22.3.0
+    depinfo            2.0.0+1.gd66df8c.dirty
+    importlib-metadata                missing
+    isort                              5.10.1
+    rich                               12.4.4
+    tox                                3.25.0
+    
+    Build Tools Information
+    -----------------------
+    bump2version  1.0.1
+    flake8        4.0.1
+    pytest        7.1.2
+    pytest-cov    3.0.0
+    tox          3.25.0
 
-    Package Versions
-    ================
-    pip        10.0.1
-    setuptools 39.0.1
-    wheel      0.31.0
+Alternatively you can use this package directly from Python
+
+.. code-block:: python
+
+    from depinfo.infrastructure.application import DisplayServiceRegistry, DisplayType
+
+    max_depth: int = 1
+    report = DependencyReport.from_root(
+        root="depinfo",
+        build_tools=[
+            "bump2version",
+            "pytest",
+            "pytest-cov",
+            "tox",
+            "flake8",
+            "flake8-mypy"
+            "black"
+        ],
+        max_depth=max_depth
+    )
+    service = DisplayServiceRegistry.display_service(DisplayType.Simple)
+    service.display(report, max_depth=max_depth)
+
 
 Copyright
 =========
