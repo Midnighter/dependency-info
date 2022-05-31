@@ -35,11 +35,13 @@ Example
 =======
 The simplest way to display dependencies is to use the command line tool 
 
+
 .. code-block:: console
     depinfo "your-package-name"
 
 
-To show the dependencies of this package use
+To print the dependencies of this package use
+
 
 .. code-block:: console
     depinfo "depinfo"
@@ -70,6 +72,7 @@ To show the dependencies of this package use
     tox          3.25.0
 
 Alternatively you can use this package directly from Python
+
 
 .. code-block:: python
 
