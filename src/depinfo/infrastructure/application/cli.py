@@ -21,9 +21,7 @@ import logging
 import sys
 from typing import List, Optional
 
-from depinfo.domain import DependencyReport
-
-from .display_service_registry import DisplayServiceRegistry, DisplayType
+from depinfo.application import DisplayApplication, DisplayType
 
 
 logger = logging.getLogger()
@@ -82,13 +80,13 @@ def main(argv: Optional[List[str]] = None) -> None:
     if not (0 <= args.max_depth < MAX_DEPTH):
         logger.critical(f"The maximum depth must be >=0 and <{MAX_DEPTH}.")
         sys.exit(2)
-    report = DependencyReport.from_root(
-        args.package_name,
-        [token.strip() for token in args.build_tools.split(",")],
+    if args.markdown:
+        display_type = DisplayType.Markdown
+    else:
+        display_type = DisplayType.Simple
+    DisplayApplication.run(
+        package_name=args.package_name,
+        display_type=display_type,
+        build_tools=[token.strip() for token in args.build_tools.split(",")],
         max_depth=args.max_depth,
     )
-    if args.markdown:
-        service = DisplayServiceRegistry.display_service(DisplayType.Markdown)
-    else:
-        service = DisplayServiceRegistry.display_service(DisplayType.Simple)
-    service.display(report=report, max_depth=args.max_depth)
