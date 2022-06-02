@@ -21,7 +21,7 @@ import logging
 import sys
 from typing import List, Optional
 
-from depinfo.application import DisplayApplication, DisplayType
+from depinfo.application import DisplayApplication, DisplayFormat
 
 
 logger = logging.getLogger()
@@ -81,12 +81,12 @@ def main(argv: Optional[List[str]] = None) -> None:
         logger.critical(f"The maximum depth must be >=0 and <{MAX_DEPTH}.")
         sys.exit(2)
     if args.markdown:
-        display_type = DisplayType.Markdown
+        display_format = DisplayFormat.Markdown
     else:
-        display_type = DisplayType.Simple
+        display_format = DisplayFormat.Simple
     DisplayApplication.run(
         package_name=args.package_name,
-        display_type=display_type,
+        display_format=display_format,
         build_tools=[token.strip() for token in args.build_tools.split(",")],
         max_depth=args.max_depth,
     )
