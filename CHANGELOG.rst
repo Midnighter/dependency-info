@@ -4,6 +4,9 @@ Change Log
 
 Next Release
 ------------
+
+2.1.0 (2022-06-02)
+------------------
 * Refactor application code.
 * Rename display type to format.
 * Introduce deprecated ``print_dependencies`` and ``show_versions`` functions for
