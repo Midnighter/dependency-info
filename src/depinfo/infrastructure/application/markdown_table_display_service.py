@@ -93,6 +93,8 @@ class MarkdownTableDisplayService(AbstractDisplayService):
         cls, header: List[str], pairs: List[Tuple[str, str]]
     ) -> List[str]:
         """Format pairs of information as a markdown table with two columns."""
+        if not pairs:
+            return []
         max_len_name = max(max((len(pair[0]) for pair in pairs)), len(header[0]))
         max_len_version = max(max((len(pair[1]) for pair in pairs)), len(header[1]))
         result = [
