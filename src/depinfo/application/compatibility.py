@@ -25,7 +25,8 @@ def print_dependencies(package_name: str) -> None:
     """Display dependency information for the given package in a simple format."""
     warn(
         DeprecationWarning(
-            "This part of the interface is deprecated. Please use either the command "
+            "The function 'print_dependencies' is deprecated since version 2.0.0. "
+            "Please use either the command "
             "line interface with command 'depinfo' or import "
             "'depinfo.application.DisplayApplication' in your Python project."
         )
@@ -35,4 +36,12 @@ def print_dependencies(package_name: str) -> None:
 
 def show_versions() -> None:
     """Display dependency information for this package in a simple format."""
+    warn(
+        DeprecationWarning(
+            "The function 'show_versions' is deprecated since version 2.0.0. "
+            "Please use either the command "
+            "line interface with command 'depinfo' or import "
+            "'depinfo.application.DisplayApplication' in your Python project."
+        )
+    )
     DisplayApplication.run(package_name="depinfo")
