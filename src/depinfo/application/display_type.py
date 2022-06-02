@@ -13,13 +13,10 @@
 # limitations under the License.
 
 
-"""Provide a display service factory."""
+"""Provide a controlled vocabulary for display types."""
 
 
 from enum import Enum, auto
-from typing import Type
-
-from depinfo.application import AbstractDisplayService
 
 
 class AutoNameEnum(Enum):
@@ -36,22 +33,5 @@ class DisplayType(AutoNameEnum):
 
     Simple = auto()
     Markdown = auto()
+    Rich = auto()
     Textual = auto()
-
-
-class DisplayServiceRegistry:
-    """Define a registry that returns display service classes based on given values."""
-
-    @classmethod
-    def display_service(cls, display: DisplayType) -> Type[AbstractDisplayService]:
-        """Return a display service class based on the given display type value."""
-        if display is DisplayType.Simple:
-            from .simple_display_service import SimpleDisplayService
-
-            return SimpleDisplayService
-        elif display is DisplayType.Markdown:
-            from .markdown_table_display_service import MarkdownTableDisplayService
-
-            return MarkdownTableDisplayService
-        else:
-            raise ValueError(f"Unknown display type {display}.")
