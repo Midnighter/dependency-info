@@ -33,13 +33,13 @@ Package Dependency Information
 
 Example
 =======
-The simplest way to display dependencies is to use the command line tool 
+The simplest way to display dependencies is to use the command line tool:
 
 .. code-block:: console
 
     depinfo "your-package-name"
 
-To print the dependencies of this package use
+To print the dependencies of this package use (also try the ``--markdown`` option):
 
 .. code-block:: console
 
@@ -73,24 +73,9 @@ Alternatively you can use this package directly from Python
 
 .. code-block:: python
 
-    from depinfo.infrastructure.application import DisplayServiceRegistry, DisplayType
+    from depinfo.application import DisplayApplication
 
-    max_depth: int = 1
-    report = DependencyReport.from_root(
-        root="depinfo",
-        build_tools=[
-            "bump2version",
-            "pytest",
-            "pytest-cov",
-            "tox",
-            "flake8",
-            "flake8-mypy"
-            "black"
-        ],
-        max_depth=max_depth
-    )
-    service = DisplayServiceRegistry.display_service(DisplayType.Simple)
-    service.display(report, max_depth=max_depth)
+    DisplayApplication.run("depinfo")
 
 Copyright
 =========
