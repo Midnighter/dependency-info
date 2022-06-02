@@ -4,6 +4,11 @@ Change Log
 
 Next Release
 ------------
+* Refactor application code.
+* Rename display type to format.
+* Introduce deprecated ``print_dependencies`` and ``show_versions`` functions for
+  compatibility.
+* Test the CLI.
 
 2.0.0 (2022-05-29)
 ------------------
