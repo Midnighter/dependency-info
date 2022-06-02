@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a controlled vocabulary for display types."""
+"""Provide a controlled vocabulary for display formats."""
 
 
 from enum import Enum, auto
@@ -28,8 +28,8 @@ class AutoNameEnum(Enum):
         return name
 
 
-class DisplayType(AutoNameEnum):
-    """Define an enumeration for supported display methods."""
+class DisplayFormat(AutoNameEnum):
+    """Define an enumeration for supported display formats."""
 
     Simple = auto()
     Markdown = auto()

@@ -19,22 +19,24 @@
 from typing import Type
 
 from .abstract_display_service import AbstractDisplayService
-from .display_type import DisplayType
+from .display_format import DisplayFormat
 
 
 class DisplayServiceRegistry:
     """Define a registry that returns display service classes based on given type."""
 
     @classmethod
-    def display_service(cls, display: DisplayType) -> Type[AbstractDisplayService]:
-        """Return a display service class based on the given display type value."""
-        if display is DisplayType.Simple:
+    def display_service(
+        cls, display_format: DisplayFormat
+    ) -> Type[AbstractDisplayService]:
+        """Return a display service class based on the given display format."""
+        if display_format is DisplayFormat.Simple:
             from depinfo.infrastructure.application import SimpleDisplayService
 
             return SimpleDisplayService
-        elif display is DisplayType.Markdown:
+        elif display_format is DisplayFormat.Markdown:
             from depinfo.infrastructure.application import MarkdownTableDisplayService
 
             return MarkdownTableDisplayService
         else:
-            raise ValueError(f"Unknown display type {display}.")
+            raise ValueError(f"Unknown display format {display_format}.")

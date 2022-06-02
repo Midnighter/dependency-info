@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-from .display_type import DisplayType
+from .display_format import DisplayFormat
 from .abstract_display_service import AbstractDisplayService
 from .display_service_registry import DisplayServiceRegistry
 from .display_application import DisplayApplication

@@ -20,8 +20,8 @@ from typing import Iterable
 
 from depinfo.domain import DependencyReport
 
+from .display_format import DisplayFormat
 from .display_service_registry import DisplayServiceRegistry
-from .display_type import DisplayType
 
 
 class DisplayApplication:
@@ -31,7 +31,7 @@ class DisplayApplication:
     def run(
         cls,
         package_name: str,
-        display_type: DisplayType = DisplayType.Simple,
+        display_format: DisplayFormat = DisplayFormat.Simple,
         build_tools: Iterable[str] = (
             "conda",
             "flit",
@@ -50,7 +50,7 @@ class DisplayApplication:
 
         Args:
             package_name: The package name for which to generate dependency information.
-            display_type: One of the supported display formats.
+            display_format: One of the supported display formats.
             build_tools: A list of build packages to include.
             max_depth: The maximum desired depth of requirements nesting.
 
@@ -60,6 +60,6 @@ class DisplayApplication:
             build_tools=build_tools,
             max_depth=max_depth,
         )
-        DisplayServiceRegistry.display_service(display=display_type).display(
+        DisplayServiceRegistry.display_service(display_format=display_format).display(
             report=report, max_depth=max_depth
         )
