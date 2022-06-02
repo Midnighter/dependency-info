@@ -5,6 +5,11 @@ Change Log
 Next Release
 ------------
 
+2.1.1 (2022-06-02)
+------------------
+* Update main readme.
+* Fix bug with formatting empty pairs.
+
 2.1.0 (2022-06-02)
 ------------------
 * Refactor application code.
