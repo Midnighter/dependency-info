@@ -18,3 +18,6 @@
 
 __author__ = "Moritz E. Beber"
 __email__ = "midnighter@posteo.net"
+
+
+from .application.compatibility import print_dependencies, show_versions
