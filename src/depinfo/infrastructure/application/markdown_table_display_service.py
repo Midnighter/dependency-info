@@ -37,7 +37,7 @@ class MarkdownTableDisplayService(AbstractDisplayService):
             **kwargs: Keyword arguments are ignored.
 
         """
-        assert report.root.version is not None
+        assert report.root.version is not None  # noqa: S101
         print(
             "\n".join(
                 [

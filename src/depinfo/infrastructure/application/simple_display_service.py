@@ -37,7 +37,7 @@ class SimpleDisplayService(AbstractDisplayService):
             **kwargs: Keyword arguments are ignored.
 
         """
-        assert report.root.version is not None
+        assert report.root.version is not None  # noqa: S101
         print(
             cls._format_section(
                 "Package Information", [(report.root.name, report.root.version)]
