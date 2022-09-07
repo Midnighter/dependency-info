@@ -16,8 +16,6 @@
 """Test the deprecated compatibility functions."""
 
 
-import platform
-
 import pytest
 
 from depinfo import print_dependencies, show_versions

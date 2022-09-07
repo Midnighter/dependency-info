@@ -16,7 +16,6 @@
 """Test the depinfo command line interface."""
 
 
-import platform
 from typing import List
 
 import pytest
