@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple, Deque
+from typing import Deque, Dict, Iterable, Iterator, List, Tuple
 
 from .package import Package
 from .platform import Platform
