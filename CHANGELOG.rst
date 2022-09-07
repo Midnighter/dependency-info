@@ -5,6 +5,10 @@ Change Log
 Next Release
 ------------
 
+2.2.0 (2022-09-07)
+------------------
+* Adjust the output order and put the root package in its own section (#14).
+
 2.1.1 (2022-06-02)
 ------------------
 * Update main readme.
