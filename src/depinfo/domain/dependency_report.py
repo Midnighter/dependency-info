@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Dict, Iterable, Iterator, List, Tuple, Deque
 
 from .package import Package
 from .platform import Platform
@@ -109,7 +109,11 @@ class DependencyReport:
             Dependency nesting level, package pairs.
 
         """
-        discovered = deque([(0, self.root)])
+        discovered: Deque[Tuple[int, Package]] = deque()
+        if max_depth > 0:
+            discovered.extend(
+                ((1, self.packages[req]) for req in self.root.requirements)
+            )
         while len(discovered) > 0:
             level, pkg = discovered.popleft()
             if level < max_depth:

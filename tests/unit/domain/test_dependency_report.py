@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that dependency report works as expected."""
+"""Test that the dependency report works as expected."""
 
 
 from typing import Dict
@@ -72,7 +72,6 @@ def test_init(
 
 def test_iter_requirements(report: DependencyReport, depinfo: Package) -> None:
     """Test that requirements can be iterated as expected."""
-    assert next(report.iter_requirements(max_depth=0)) == (0, depinfo)
     assert {pkg.name for _, pkg in report.iter_requirements()}.issuperset(
         {"importlib-metadata"}
     )
@@ -81,20 +80,14 @@ def test_iter_requirements(report: DependencyReport, depinfo: Package) -> None:
 
 def test_iter_unique_requirements(report: DependencyReport) -> None:
     """Test that unique requirements can be iterated as expected."""
-    assert {name for name, _ in report.iter_unique_requirements(max_depth=0)} == {
-        "depinfo"
-    }
     assert {name for name, _ in report.iter_unique_requirements()}.issuperset(
-        {"depinfo", "importlib-metadata"}
+        {"importlib-metadata"}
     )
 
 
 def test_from_root() -> None:
     """Test dependency report creation from a root name."""
     report = DependencyReport.from_root("depinfo", ("pip", "setuptools"))
-    assert {pkg.name for _, pkg in report.iter_requirements(max_depth=0)}.issuperset(
-        {"depinfo"}
-    )
     assert {pkg.name for _, pkg in report.iter_requirements()}.issuperset(
         {"importlib-metadata"}
     )
