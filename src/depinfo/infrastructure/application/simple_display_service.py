@@ -37,55 +37,56 @@ class SimpleDisplayService(AbstractDisplayService):
             **kwargs: Keyword arguments are ignored.
 
         """
+        assert report.root.version is not None
         print(
-            "\n".join(
-                [
-                    "",
-                    "Platform Information",
-                    "--------------------",
-                    *cls._format_pairs(
-                        [
-                            (report.platform.name, report.platform.version),
-                            (report.python.name, report.python.version),
-                        ]
+            cls._format_section(
+                "Package Information", [(report.root.name, report.root.version)]
+            )
+        )
+        print(
+            cls._format_section(
+                "Dependency Information",
+                sorted(
+                    report.iter_unique_requirements(
+                        missing_version="missing", max_depth=max_depth
                     ),
-                ]
-            )
-        )
-        requirements = sorted(
-            report.iter_unique_requirements(
-                missing_version="missing", max_depth=max_depth
-            ),
-            key=itemgetter(0),
-        )
-        print(
-            "\n".join(
-                [
-                    "",
-                    "Dependency Information",
-                    "----------------------",
-                    *cls._format_pairs(requirements),
-                ]
+                    key=itemgetter(0),
+                ),
             )
         )
         print(
-            "\n".join(
-                [
-                    "",
-                    "Build Tools Information",
-                    "-----------------------",
-                    *cls._format_pairs(
-                        sorted(
-                            (
-                                (pkg.name, pkg.version)
-                                for pkg in report.build_tools
-                                if pkg.version is not None
-                            ),
-                            key=itemgetter(0),
-                        )
+            cls._format_section(
+                "Build Tools Information",
+                sorted(
+                    (
+                        (pkg.name, pkg.version)
+                        for pkg in report.build_tools
+                        if pkg.version is not None
                     ),
-                ]
+                    key=itemgetter(0),
+                ),
             )
+        )
+        print(
+            cls._format_section(
+                "Platform Information",
+                [
+                    (report.platform.name, report.platform.version),
+                    (report.python.name, report.python.version),
+                ],
+            )
+        )
+
+    @classmethod
+    def _format_section(cls, title: str, pairs: List[Tuple[str, str]]) -> str:
+        """Format a report section with a title."""
+        return "\n".join(
+            [
+                "",
+                title,
+                "-" * len(title),
+                *cls._format_pairs(pairs),
+            ]
         )
 
     @classmethod

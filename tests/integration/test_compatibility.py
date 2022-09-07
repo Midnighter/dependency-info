@@ -29,19 +29,20 @@ def test_print_dependencies(capsys) -> None:
         print_dependencies("depinfo")
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
-    assert lines[1].startswith("Platform Information")
-    assert lines[2].startswith("--------------------")
 
-    assert lines[3].startswith(platform.system())
-    assert lines[4].startswith(platform.python_implementation())
+    assert lines[1].startswith("Package Information")
+    assert lines[2].startswith("-------------------")
+    assert lines[3].startswith("depinfo")
 
-    assert lines[6].startswith("Dependency Information")
-    assert lines[7].startswith("----------------------")
+    assert lines[5].startswith("Dependency Information")
+    assert lines[6].startswith("----------------------")
 
-    assert any(line.startswith("depinfo") for line in lines[8:])
-    assert any(line.startswith("pip") for line in lines[8:])
-    assert any(line.startswith("setuptools") for line in lines[8:])
-    assert any(line.startswith("wheel") for line in lines[8:])
+    assert any(line.startswith("pip") for line in lines[7:])
+    assert any(line.startswith("setuptools") for line in lines[7:])
+    assert any(line.startswith("wheel") for line in lines[7:])
+
+    assert any(line.startswith("Build Tools Information") for line in lines[7:])
+    assert any(line.startswith("Platform Information") for line in lines[7:])
 
 
 def test_show_versions(capsys) -> None:
@@ -50,16 +51,17 @@ def test_show_versions(capsys) -> None:
         show_versions()
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
-    assert lines[1].startswith("Platform Information")
-    assert lines[2].startswith("--------------------")
 
-    assert lines[3].startswith(platform.system())
-    assert lines[4].startswith(platform.python_implementation())
+    assert lines[1].startswith("Package Information")
+    assert lines[2].startswith("-------------------")
+    assert lines[3].startswith("depinfo")
 
-    assert lines[6].startswith("Dependency Information")
-    assert lines[7].startswith("----------------------")
+    assert lines[5].startswith("Dependency Information")
+    assert lines[6].startswith("----------------------")
 
-    assert any(line.startswith("depinfo") for line in lines[8:])
-    assert any(line.startswith("pip") for line in lines[8:])
-    assert any(line.startswith("setuptools") for line in lines[8:])
-    assert any(line.startswith("wheel") for line in lines[8:])
+    assert any(line.startswith("pip") for line in lines[7:])
+    assert any(line.startswith("setuptools") for line in lines[7:])
+    assert any(line.startswith("wheel") for line in lines[7:])
+
+    assert any(line.startswith("Build Tools Information") for line in lines[7:])
+    assert any(line.startswith("Platform Information") for line in lines[7:])

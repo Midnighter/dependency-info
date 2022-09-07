@@ -37,18 +37,16 @@ class MarkdownTableDisplayService(AbstractDisplayService):
             **kwargs: Keyword arguments are ignored.
 
         """
+        assert report.root.version is not None
         print(
             "\n".join(
                 [
                     "",
-                    "### Platform Information",
+                    "### Package Information",
                     "",
                     *cls._format_table(
-                        ["", ""],
-                        [
-                            (report.platform.name, report.platform.version),
-                            (report.python.name, report.python.version),
-                        ],
+                        ["Package", "Version"],
+                        [(report.root.name, report.root.version)],
                     ),
                 ]
             )
@@ -84,6 +82,22 @@ class MarkdownTableDisplayService(AbstractDisplayService):
                     "### Build Tools Information",
                     "",
                     *cls._format_table(["Package", "Version"], tools),
+                ]
+            )
+        )
+        print(
+            "\n".join(
+                [
+                    "",
+                    "### Platform Information",
+                    "",
+                    *cls._format_table(
+                        ["", ""],
+                        [
+                            (report.platform.name, report.platform.version),
+                            (report.python.name, report.python.version),
+                        ],
+                    ),
                 ]
             )
         )

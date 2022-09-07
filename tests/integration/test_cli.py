@@ -49,19 +49,19 @@ def test_simple_format(capsys) -> None:
     captured = capsys.readouterr()
     lines = captured.out.split("\n")
 
-    assert lines[1].startswith("Platform Information")
-    assert lines[2].startswith("--------------------")
+    assert lines[1].startswith("Package Information")
+    assert lines[2].startswith("-------------------")
+    assert lines[3].startswith("depinfo")
 
-    assert lines[3].startswith(platform.system())
-    assert lines[4].startswith(platform.python_implementation())
+    assert lines[5].startswith("Dependency Information")
+    assert lines[6].startswith("----------------------")
 
-    assert lines[6].startswith("Dependency Information")
-    assert lines[7].startswith("----------------------")
+    assert any(line.startswith("pip") for line in lines[7:])
+    assert any(line.startswith("setuptools") for line in lines[7:])
+    assert any(line.startswith("wheel") for line in lines[7:])
 
-    assert any(line.startswith("depinfo") for line in lines[8:])
-    assert any(line.startswith("pip") for line in lines[8:])
-    assert any(line.startswith("setuptools") for line in lines[8:])
-    assert any(line.startswith("wheel") for line in lines[8:])
+    assert any(line.startswith("Build Tools Information") for line in lines[7:])
+    assert any(line.startswith("Platform Information") for line in lines[7:])
 
 
 def test_markdown_format(capsys) -> None:
@@ -70,17 +70,17 @@ def test_markdown_format(capsys) -> None:
 
     captured = capsys.readouterr()
 
-    assert "### Platform Information" in captured.out
-    assert f"| {platform.system()} " in captured.out
-    assert f"| {platform.python_implementation()} " in captured.out
+    assert "### Package Information" in captured.out
+    assert "| depinfo " in captured.out
 
     assert "### Dependency Information" in captured.out
-    assert "| depinfo " in captured.out
 
     assert "### Build Tools Information" in captured.out
     assert "| pip " in captured.out
     assert "| setuptools " in captured.out
     assert "| wheel " in captured.out
+
+    assert "### Platform Information" in captured.out
 
 
 @pytest.mark.parametrize("depth", range(5))
