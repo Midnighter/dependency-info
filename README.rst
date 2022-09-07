@@ -47,27 +47,29 @@ To print the dependencies of this package use (also try the ``--markdown`` optio
 
 .. code-block:: console
 
-    Platform Information
-    --------------------
-    Linux   5.13.0-44-generic-x86_64
-    CPython                   3.9.13
-    
+    Package Information
+    -------------------
+    depinfo 2.2.0
+
     Dependency Information
     ----------------------
-    black                              22.3.0
-    depinfo            2.0.0+1.gd66df8c.dirty
-    importlib-metadata                missing
-    isort                              5.10.1
-    rich                               12.4.4
-    tox                                3.25.0
-    
+    black               22.3.0
+    importlib-metadata missing
+    isort               5.10.1
+    rich                12.4.4
+    tox                 3.25.0
+
     Build Tools Information
     -----------------------
-    bump2version  1.0.1
-    flake8        4.0.1
-    pytest        7.1.2
-    pytest-cov    3.0.0
-    tox          3.25.0
+    pbr         5.9.0
+    pip        22.1.2
+    setuptools 62.3.2
+    wheel      0.37.1
+
+    Platform Information
+    --------------------
+    Linux   5.17.5-76051705-generic-x86_64
+    CPython                         3.10.2
 
 Alternatively you can use this package directly from Python
 
