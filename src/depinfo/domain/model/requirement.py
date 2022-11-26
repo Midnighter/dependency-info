@@ -18,12 +18,15 @@
 
 from __future__ import annotations
 
-from typing import Optional, NamedTuple
+import re
+from dataclasses import dataclass
+from typing import Optional, ClassVar, Pattern
 
 from .package_name import PackageName
 
 
-class Requirement(NamedTuple):
+@dataclass(frozen=True)
+class Requirement:
     """
     Define the package requirement model as a value object.
 
@@ -35,6 +38,8 @@ class Requirement(NamedTuple):
 
     name: PackageName
     constraint: Optional[str] = None
+
+    _split_pattern: ClassVar[Pattern] = re.compile(r"([-\w.]+)\b", flags=re.ASCII)
 
     @classmethod
     def from_requires(cls, requires: str) -> Requirement:
@@ -52,7 +57,12 @@ class Requirement(NamedTuple):
             A requirement instance encapsulating those values.
 
         """
-        tokens = requires.strip().split(maxsplit=1)
+        # The split pattern can lead to empty strings which we remove.
+        tokens = [
+            token
+            for token in cls._split_pattern.split(requires.strip(), maxsplit=1)
+            if token != ""
+        ]
         return cls(
             name=PackageName.normalize(tokens[0]),
             constraint=cls._parse_constraint(tokens[1]) if len(tokens) == 2 else None,
@@ -60,5 +70,5 @@ class Requirement(NamedTuple):
 
     @classmethod
     def _parse_constraint(cls, constraint: str) -> str:
-        """Remove the parentheses around a constraint string."""
-        return constraint.strip()[1:-1]
+        """Remove parentheses around a constraint string."""
+        return constraint.replace("(", "").replace(")", "").strip()

@@ -53,7 +53,7 @@ class Package:
     extras: Dict[str, List[Requirement]]
 
     _extra_pattern: ClassVar[Pattern] = re.compile(
-        r"extra == '(?P<extra>[-\w.]+)'", re.ASCII
+        r"extra == '(?P<extra>[-\w.]+)'", flags=re.ASCII
     )
 
     @classmethod
