@@ -20,7 +20,14 @@ from typing import Dict
 
 import pytest
 
-from depinfo.domain import DependencyReport, Package, Platform, Python
+from depinfo.domain.model import (
+    DependencyReport,
+    Package,
+    Platform,
+    Python,
+    Requirement,
+    PackageName,
+)
 
 
 @pytest.fixture(scope="module")
@@ -44,10 +51,15 @@ def depinfo() -> Package:
 @pytest.fixture(scope="module")
 def report(platform: Platform, python: Python, depinfo: Package) -> DependencyReport:
     """Provide a dependency report fixture."""
-    tools = ["pip", "setuptools"]
     packages = {depinfo.name: depinfo}
-    for name in depinfo.requirements + tools:
+    tools = [
+        PackageName("pip"),
+        PackageName("setuptools"),
+    ]
+    for name in tools:
         packages[name] = Package.from_name(name)
+    for req in depinfo.requirements:
+        packages[req.name] = Package.from_name(req.name)
     return DependencyReport(
         root=depinfo,
         platform=platform,

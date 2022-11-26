@@ -20,15 +20,36 @@ from typing import Dict
 
 import pytest
 
-from depinfo.domain import Package
+from depinfo.domain.model import Package, Requirement
 
 
 @pytest.mark.parametrize(
     "attributes",
     [
-        {"name": "cystalball", "version": None, "requirements": []},
-        {"name": "cystalball", "version": "4.2.0", "requirements": []},
-        {"name": "cystalball", "version": "4.2.0", "requirements": ["pip", "wheel"]},
+        {"name": "crystalball", "version": None, "requirements": [], "extras": {}},
+        {"name": "crystalball", "version": "4.2.0", "requirements": [], "extras": {}},
+        {
+            "name": "crystalball",
+            "version": "4.2.0",
+            "requirements": [
+                Requirement.from_requires("pip"),
+                Requirement.from_requires("wheel"),
+            ],
+            "extras": {},
+        },
+        {
+            "name": "crystalball",
+            "version": "4.2.0",
+            "requirements": [
+                Requirement.from_requires("pip"),
+                Requirement.from_requires("wheel"),
+            ],
+            "extras": {
+                "all": [
+                    Requirement.from_requires("rich"),
+                ]
+            },
+        },
     ],
 )
 def test_init(attributes: Dict[str, str]) -> None:
@@ -42,12 +63,13 @@ def test_from_name() -> None:
     """Test the package factory with an existing package name."""
     pkg = Package.from_name("depinfo")
     assert pkg.name == "depinfo"
-    assert "importlib-metadata" in pkg.requirements
+    assert Requirement.from_requires("importlib-metadata") in pkg.requirements
 
 
 def test_missing_name() -> None:
     """Test the package factory with a missing package name."""
-    pkg = Package.from_name("cystalball")
-    assert pkg.name == "cystalball"
+    pkg = Package.from_name("crystalball")
+    assert pkg.name == "crystalball"
     assert pkg.version is None
-    assert pkg.requirements == []
+    assert not pkg.requirements
+    assert not pkg.extras

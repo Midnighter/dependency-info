@@ -18,7 +18,7 @@
 
 from abc import ABC, abstractmethod
 
-from depinfo.domain import DependencyReport
+from depinfo.domain.model import DependencyReport
 
 
 class AbstractDisplayService(ABC):

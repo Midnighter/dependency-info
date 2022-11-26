@@ -21,7 +21,7 @@ from typing import Dict
 
 import pytest
 
-from depinfo.domain import Platform
+from depinfo.domain.model import Platform
 
 
 @pytest.mark.parametrize("attributes", [{"name": "Linux", "version": "4.2"}])

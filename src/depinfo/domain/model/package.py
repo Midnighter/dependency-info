@@ -21,35 +21,40 @@ from __future__ import annotations
 import re
 import sys
 from dataclasses import dataclass
-from typing import ClassVar, List, Optional, Pattern
-
+from typing import ClassVar, List, Optional, Pattern, Dict
 
 if sys.version_info < (3, 8):
     from importlib_metadata import PackageNotFoundError, distribution
 else:
     from importlib.metadata import PackageNotFoundError, distribution
 
+from .requirement import Requirement
+
 
 @dataclass(frozen=True)
 class Package:
     """
-    Define a package model.
+    Define the package model as a value object.
 
-    A package is defined by its name, version, and requirements. It can be constructed
-    from its name via a convenient factory method.
+    A package is defined by its name, version, requirements, and extras. It can be
+    constructed from its name via a convenient factory method.
 
     Attributes:
         name: The package name.
         version: The package version.
         requirements: The package's requirements as other packages (if any).
+        extras: Requirements for extras keyed by the extra name.
 
     """
 
     name: str
     version: Optional[str]
-    requirements: List[str]
+    requirements: List[Requirement]
+    extras: Dict[str, List[Requirement]]
 
-    _req_pattern: ClassVar[Pattern] = re.compile(r"[\s();<>=]")
+    _extra_pattern: ClassVar[Pattern] = re.compile(
+        r"extra == '(?P<extra>[-\w.]+)'", re.ASCII
+    )
 
     @classmethod
     def from_name(cls, name: str) -> Package:
@@ -68,37 +73,31 @@ class Package:
             and requirements are empty.
 
         """
-        name = cls._normalize_name(name)
         try:
             dist = distribution(name)
         except PackageNotFoundError:
-            result = cls(name=name, version=None, requirements=[])
-        else:
-            result = cls(
-                name=name,
-                version=dist.version,
-                requirements=[]
-                if dist.requires is None
-                else [cls._normalize_name(cls._get_name(req)) for req in dist.requires],
-            )
-        return result
-
-    @classmethod
-    def _normalize_name(cls, name: str) -> str:
-        """Normalize a package's name to lower case with hyphens only."""
-        return name.lower().replace("_", "-")
-
-    @classmethod
-    def _get_name(cls, requirement: str) -> str:
-        """
-        Return the package name from requirement metadata.
-
-        Args:
-            requirement: Package requirement metadata as described in PEP 566
-                (https://peps.python.org/pep-0566/).
-
-        Returns:
-            The package name.
-
-        """
-        return cls._req_pattern.split(requirement, maxsplit=1)[0]
+            return cls(name=name, version=None, requirements=[], extras={})
+        if dist.requires is None:
+            # We purposely use the distribution's chosen name when available.
+            return cls(name=dist.name, version=dist.version, requirements=[], extras={})
+        # Parse direct and extra requirements separately.
+        requirements = []
+        extras = {}
+        for req in dist.requires:
+            tokens = req.split(";")
+            for entry in tokens[1:]:
+                match = cls._extra_pattern.match(entry.strip())
+                if match:
+                    extras.setdefault(match.group("extra"), []).append(
+                        Requirement.from_requires(tokens[0])
+                    )
+                    break
+            else:
+                requirements.append(Requirement.from_requires(tokens[0]))
+        # We purposely use the distribution's chosen name when available.
+        return cls(
+            name=dist.name,
+            version=dist.version,
+            requirements=requirements,
+            extras=extras,
+        )

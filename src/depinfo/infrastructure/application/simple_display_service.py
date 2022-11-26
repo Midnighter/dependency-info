@@ -20,7 +20,7 @@ from operator import itemgetter
 from typing import List, Tuple
 
 from depinfo.application import AbstractDisplayService
-from depinfo.domain import DependencyReport
+from depinfo.domain.model import DependencyReport
 
 
 class SimpleDisplayService(AbstractDisplayService):

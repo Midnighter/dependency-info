@@ -13,4 +13,12 @@
 # limitations under the License.
 
 
-"""Provide domain models and services."""
+"""Provide domain models."""
+
+
+from .package_name import PackageName
+from .requirement import Requirement
+from .package import Package
+from .platform import Platform
+from .python import Python
+from .dependency_report import DependencyReport

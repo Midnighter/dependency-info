@@ -21,7 +21,7 @@ from typing import Dict
 
 import pytest
 
-from depinfo.domain import Python
+from depinfo.domain.model import Python
 
 
 @pytest.mark.parametrize("attributes", [{"name": "PyPy", "version": "4.0.0"}])

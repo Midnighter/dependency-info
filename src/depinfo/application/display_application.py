@@ -18,7 +18,7 @@
 
 from typing import Iterable
 
-from depinfo.domain import DependencyReport
+from depinfo.domain.model import DependencyReport
 
 from .display_format import DisplayFormat
 from .display_service_registry import DisplayServiceRegistry

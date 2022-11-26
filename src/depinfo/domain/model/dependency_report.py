@@ -22,6 +22,7 @@ from collections import deque
 from dataclasses import dataclass
 from typing import Deque, Dict, Iterable, Iterator, List, Tuple
 
+from .package_name import PackageName
 from .package import Package
 from .platform import Platform
 from .python import Python
@@ -73,24 +74,25 @@ class DependencyReport:
             A dependency report instance with potentially nested requirements.
 
         """
-        discovered = deque([(0, root)])
-        packages: Dict[str, Package] = {}
+        root_name = PackageName.normalize(root)
+        discovered = deque([(0, root_name)])
+        packages: Dict[PackageName, Package] = {}
         while len(discovered) > 0:
             level, name = discovered.popleft()
             if name in packages:
                 continue
             packages[name] = pkg = Package.from_name(name)
             if level < max_depth:
-                discovered.extend(((level + 1, req) for req in pkg.requirements))
+                discovered.extend(((level + 1, req.name) for req in pkg.requirements))
         tools: List[Package] = []
-        for name in build_tools:
+        for name in (PackageName.normalize(tool) for tool in build_tools):
             if name in packages:
                 tools.append(packages[name])
                 continue
             packages[name] = pkg = Package.from_name(name)
             tools.append(pkg)
         return cls(
-            root=packages[root],
+            root=packages[root_name],
             build_tools=tools,
             packages=packages,
             platform=Platform.create(),
@@ -112,13 +114,13 @@ class DependencyReport:
         discovered: Deque[Tuple[int, Package]] = deque()
         if max_depth > 0:
             discovered.extend(
-                ((1, self.packages[req]) for req in self.root.requirements)
+                ((1, self.packages[req.name]) for req in self.root.requirements)
             )
         while len(discovered) > 0:
             level, pkg = discovered.popleft()
             if level < max_depth:
                 discovered.extend(
-                    ((level + 1, self.packages[req]) for req in pkg.requirements)
+                    ((level + 1, self.packages[req.name]) for req in pkg.requirements)
                 )
             yield level, pkg
 
