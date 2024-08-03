@@ -1,13 +1,17 @@
+name: CD
+
 on:
-  workflow_run:
-    workflows: [ CI ]
-    types:
-      - completed
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+rc[0-9]+'
 
 jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
   release:
-    needs: test
-    if: github.ref_type == 'tag' && github.event.workflow_run.conclusion == 'success'
+    needs: tests
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
